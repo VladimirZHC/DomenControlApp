@@ -5,7 +5,7 @@ from .models import Division, GroupPolicy, DomenUser, Computers
 class GroupPolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupPolicy
-        fields = ('name',)
+        fields = '__all__'
         
 class DivisionSerializer(serializers.ModelSerializer):
     
