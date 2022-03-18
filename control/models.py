@@ -1,12 +1,14 @@
 from django.db import models
 
+
+
 class SchemaParams(models.Model):
     TYPE_CHOICES = (
         ("HOST", "host"),
         ("USER", "user"),
     )
     type = models.SlugField('Типы', primary_key=True, allow_unicode=True, choices=TYPE_CHOICES, max_length=10, default='HOST')
-    
+    body = models.TextField('Содержимое схемы', null=True, blank=True, default='{}')
     
     def __str__(self):
         return f'Тип: {self.type}'
@@ -18,7 +20,7 @@ class SchemaParams(models.Model):
 
 class GroupPolicy(models.Model):
     name = models.CharField('Групповая политика', max_length=30, unique=True)
-    body = models.TextField('Основной контент', null=True, blank=True)
+    body = models.TextField('Содержимое политики', null=True, blank=True)
     search_fields = ['name']
     
     

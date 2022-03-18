@@ -1,10 +1,18 @@
 
 from rest_framework import serializers
 from .models import Division, GroupPolicy, DomenUser, Computers, SchemaParams
+import json
 
+
+class BodyField(serializers.JSONField):
+    def to_representation(self, value):
+        return json.loads(value)
 
 
 class GroupPolicySerializer(serializers.ModelSerializer):
+   
+    body = BodyField()
+    
     class Meta:
         model = GroupPolicy
         fields = ('name', 'body',)
@@ -12,10 +20,10 @@ class GroupPolicySerializer(serializers.ModelSerializer):
         
 class DivisionSerializer(serializers.ModelSerializer):
     departament = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Division.objects.all())
-    policy = GroupPolicySerializer(source='group_policy', many=True)
+    group_policy = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
     class Meta:
         model = Division
-        fields = ('name', 'departament', 'policy', 'types' )
+        fields = ('name', 'departament', 'group_policy', 'types' )
         
         
 
@@ -32,6 +40,8 @@ class ComputerSerializer(serializers.ModelSerializer):
         fields = ('name', 'divisions',)
         
 class SchemaParamsSerializer(serializers.ModelSerializer):
+    body = BodyField()
+        
     class Meta:
         model = SchemaParams
-        fields = '__all__'
+        fields = ('type', 'body', )
