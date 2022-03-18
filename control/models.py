@@ -8,7 +8,7 @@ class SchemaParams(models.Model):
         ("USER", "user"),
     )
     type = models.SlugField('Типы', primary_key=True, allow_unicode=True, choices=TYPE_CHOICES, max_length=10, default='HOST')
-    body = models.TextField('Содержимое схемы', null=True, blank=True, default='{}')
+    body = models.TextField('Содержимое схемы', null=True, blank=True, default="{}")
     
     def __str__(self):
         return f'Тип: {self.type}'

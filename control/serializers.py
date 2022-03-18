@@ -5,8 +5,18 @@ import json
 
 
 class BodyField(serializers.JSONField):
+    
+    
     def to_representation(self, value):
         return json.loads(value)
+        
+    
+    def to_internal_value(self, data):
+        try:
+            json.loads(data)
+        except (TypeError, ValueError):
+            self.fail('invalid_json')
+        return data
 
 
 class GroupPolicySerializer(serializers.ModelSerializer):
