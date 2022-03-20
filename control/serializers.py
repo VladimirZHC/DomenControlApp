@@ -1,4 +1,5 @@
-
+from __future__ import division
+from asyncore import read
 from rest_framework import serializers
 from .models import Division, GroupPolicy, DomenUser, Computers, SchemaParams
 import json
@@ -38,20 +39,23 @@ class DivisionSerializer(serializers.ModelSerializer):
         
 
 class DomenUserSerializer(serializers.ModelSerializer):
-    
+    division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
     class Meta:
         model = DomenUser
-        fields = ('name', 'divisions',)
+        fields = ('name', 'division',)
         
 class ComputerSerializer(serializers.ModelSerializer):
-    
+    division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
     class Meta:
         model = Computers
-        fields = ('name', 'divisions',)
+        fields = ('name', 'division',)
+        
+        
+        
         
 class SchemaParamsSerializer(serializers.ModelSerializer):
     body = BodyField()
-        
+    
     class Meta:
         model = SchemaParams
         fields = ('type', 'body', )

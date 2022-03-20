@@ -26,7 +26,7 @@ class GroupPolicyViewSet(viewsets.ModelViewSet):
 class DomenUserViewSet(viewsets.ModelViewSet):
     queryset = DomenUser.objects.all()
     serializer_class = DomenUserSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['name', 'division']
     search_fields = ['name', ]
     
@@ -34,7 +34,7 @@ class DomenUserViewSet(viewsets.ModelViewSet):
 class ComputersViewSet(viewsets.ModelViewSet):
     queryset = Computers.objects.all()
     serializer_class = ComputerSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['name', 'division']
     search_fields = ['name', ]
     
@@ -42,3 +42,5 @@ class ComputersViewSet(viewsets.ModelViewSet):
 class SchemaParamsViewSet(viewsets.ModelViewSet):
     queryset = SchemaParams.objects.all()
     serializer_class = SchemaParamsSerializer
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
+    filterset_fields = ['type',]

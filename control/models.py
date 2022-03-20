@@ -75,7 +75,7 @@ class DomenUser(models.Model):
     name = models.CharField('Имя пользователя', max_length=20)
     division = models.ForeignKey(
         Division,
-        related_name='domenuser', 
+        related_name='userdevision', 
         on_delete=models.CASCADE,
         verbose_name='Подразделения',
         blank=True,
@@ -96,7 +96,7 @@ class Computers(models.Model):
     name = models.CharField('Компьютеры', max_length=20)
     division = models.ForeignKey(
         Division,
-        related_name='computers', 
+        related_name='computerdivision', 
         on_delete=models.CASCADE,
         verbose_name='Подразделения',
         blank=True,
