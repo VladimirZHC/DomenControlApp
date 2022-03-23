@@ -34,7 +34,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     group_policy = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
     class Meta:
         model = Division
-        fields = ('name', 'departament', 'group_policy', 'types' )
+        fields = ('name', 'departament', 'group_policy',)
         
         
 

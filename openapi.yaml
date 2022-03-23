@@ -1,0 +1,715 @@
+openapi: "3.0.0"
+info:
+  title: "GroupPolicyConstructor API"
+  description: "Group policy constructor application for simulating a domain controller Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the GroupPolicyConstructor API. <br/><br/> **Note**: All parameters are optional, but you must select at least one parameter. Calling the API by city ID (using the `id` parameter) will provide the most precise location results."
+  version: "0.1"
+  contact:
+    name: "GroupPolicyConstructor API"
+    url: http://localhost:8000/
+    email: "Sluhaivova@gmail.com"
+  license:
+    name: "CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)"
+    url: https://github.com/VladimirZHC
+    
+servers:
+- url: "http://localhost:8000/"
+  description: "API root"
+- url: "http://localhost:8000/division/"
+  description: "Divisions list"
+- url: "http://localhost:8000/grouppolicy/"
+  description: "Group Policy list"
+- url: "http://localhost:8000/users/"
+  description: "User list"
+- url: "http://localhost:8000/computers/"
+  description: "Computer list"
+- url: "http://localhost:8000/schema/"
+  description: "Type list"
+
+paths:
+  /division:
+    get:
+      tags:
+        - Current Division  List
+      summary: "Call current divison list for one location."
+  
+      description: "Get current Division list"
+      
+      operationId: "DivisionListData"
+      
+      responses:
+        200:
+          description: Successful pull of division info
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Division'
+            application/xml"\:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Division'
+                    
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: DivisionList not found
+                type: string
+                example: Not found
+    
+    post:
+      tags:
+        - Post Division
+        
+      summary: "Create division data"
+      
+      description: Create a new Division data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Division'
+      
+      responses:
+        200:
+          description: Successfully created a new Division
+    
+    put:
+      tags:
+        - Put Division
+        
+      summary: "Update division data"
+      
+      description: Update Division data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Division'
+              
+      responses:
+        200:
+          description: Successfully delete a new Division
+          
+          
+          
+  /division/{id}:
+    get:
+      tags:
+        - Current Division ID
+        
+      description: Obtain information about specific division
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the division
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Division'
+                      
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Division ID not found
+                type: string
+                example: Not found
+                
+    delete:
+      tags:
+        - Delete Division by  ID
+        
+      description: Delete division by id
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the division
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: id not found
+        '401':
+          description: Unauthorized
+      
+      
+  /grouppolicy:
+    get:
+      tags:
+        - Current GroupPolicy  List
+      summary: "Call current grouppolicy list for one location."
+  
+      description: "Get current groupPolicy list"
+      
+      operationId: "GroupPolicyListData"
+      
+      responses:
+        200:
+          description: Successful pull of grouppolicy info
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/GroupPolicy'
+            application/xml"\:
+              schema:
+                type: object
+                $ref: '#/components/schemas/GroupPolicy'
+                    
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: GroupPolicy not found
+                type: string
+                example: Not found
+    
+    post:
+      tags:
+        - Post GroupPolicy
+        
+      summary: "Create grouppolicy data"
+      
+      description: Create a new GroupPolicy data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/GroupPolicy'
+      
+      responses:
+        200:
+          description: Successfully created a new GroupPolicy
+    
+    put:
+      tags:
+        - Put GroupPolicy
+        
+      summary: "Update GroupPolicy data"
+      
+      description: Update GroupPolicy data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/GroupPolicy'
+              
+      responses:
+        200:
+          description: Successfully updated a new GroupPolicy
+          
+  /grouppolicy/{id}:
+    get:
+      tags:
+        - Current GrouPolicy ID
+        
+      description: Obtain information about specific GroupPolicy
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the grouppolicy
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/GroupPolicy'
+                      
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Division ID not found
+                type: string
+                example: Not found
+                
+                
+    delete:
+      tags:
+        - Delete GroupPolicy by  ID
+        
+      description: Delete grouppolicy by id
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the grouppolicy
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: id not found
+        '401':
+          description: Unauthorized
+                
+  /users:
+    get:
+      tags:
+        - Current User  List
+      summary: "Call current User list for one location."
+  
+      description: "Get current User list"
+      
+      operationId: "UserListData"
+      
+      responses:
+        200:
+          description: Successful pull of users info
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DomenUser'
+            application/xml"\:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DomenUser'
+                    
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: UserList not found
+                type: string
+                example: Not found
+    
+    post:
+      tags:
+        - Post User
+        
+      summary: "Create user data"
+      
+      description: Create a new user data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/DomenUser'
+      
+      responses:
+        200:
+          description: Successfully created a new User
+    
+    put:
+      tags:
+        - Put User
+        
+      summary: "Update user data"
+      
+      description: Update User data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/DomenUser'
+              
+      responses:
+        200:
+          description: Successfully updated a new DomenUser
+          
+          
+  /users/{id}:
+    get:
+      tags:
+        - Current User ID
+        
+      description: Obtain information about specific user
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the user 
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DomenUser'
+                      
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: User ID not found
+                type: string
+                example: Not found
+    
+    delete:
+      tags:
+        - Delete DomenUser by  ID
+        
+      description: Delete user by id
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the user
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: id not found
+        '401':
+          description: Unauthorized
+                
+  
+  /computers:
+    get:
+      tags:
+        - Current Computer  List
+      summary: "Call current Computer list for one location."
+  
+      description: "Get current Computer list"
+      
+      operationId: "ComputerListData"
+      
+      responses:
+        200:
+          description: Successful pull of computers info
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Computers'
+            application/xml"\:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Computers'
+                    
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: ComputerList not found
+                type: string
+                example: Not found
+    
+    post:
+      tags:
+        - Post Computer
+        
+      summary: "Create computer data"
+      
+      description: Create a new computer data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Computers'
+      
+      responses:
+        200:
+          description: Successfully created a new Computer
+    
+    put:
+      tags:
+        - Put Computer
+        
+      summary: "Update computer data"
+      
+      description: Update Computer data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Computers'
+              
+      responses:
+        200:
+          description: Successfully updated a new Computer
+          
+          
+  /computers/{id}:
+    get:
+      tags:
+        - Current Computer ID
+        
+      description: Obtain information about specific computer
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the computer 
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Computers'
+                      
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Computer ID not found
+                type: string
+                example: Not found
+                
+                
+    delete:
+      tags:
+        - Delete Computers by  ID
+        
+      description: Delete computers by id
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the computer
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: id not found
+        '401':
+          description: Unauthorized
+                
+  /schema:
+    get:
+      tags:
+        - Current ShemaParams  List
+      summary: "Call current SchemaParams list for one location."
+  
+      description: "Get current SchemaParams list"
+      
+      operationId: "SchemaParamsListData"
+      
+      responses:
+        200:
+          description: Successful pull of schemaparams info
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/SchemaParams'
+            application/xml"\:
+              schema:
+                type: object
+                $ref: '#/components/schemas/SchemaParams'
+                    
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: SchemaParams not found
+                type: string
+                example: Not found
+    
+    post:
+      tags:
+        - Post SchemaParams
+        
+      summary: "Create schemaparams data"
+      
+      description: Create a new schemaparams data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/SchemaParams'
+      
+      responses:
+        200:
+          description: Successfully created a new SchemaParams
+    
+    put:
+      tags:
+        - Put SchemaParams
+        
+      summary: "Update SchemaParams data"
+      
+      description: Update SchemaParams data in the Database
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/SchemaParams'
+              
+      responses:
+        200:
+          description: Successfully updated a new SchemaParams
+
+components:
+  schemas:
+    Division:
+      description: Model containing division info
+      
+      properties:
+        id:
+          type: integer
+          example: 1
+                    
+        name:
+          type: string
+          example: "Отдел контроля"
+        
+        departament:
+          $ref: '#/components/schemas/Division'
+          example: "Отдел контроля"
+                    
+        group_ploicy:
+          $ref: '#/components/schemas/GroupPolicy'
+          
+    GroupPolicy:
+      description: Model containing group policy info
+      
+      properties:
+        id:
+          type: integer
+          example: 1
+          
+        name:
+          type: string
+          example: "Политичная"
+          
+        body:
+          type: string
+          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+         
+    DomenUser:
+      description: Model containing user info
+      
+      properties:
+        id:
+          type: integer
+          example: 1
+        
+        name:
+          type: string
+          example: "Владимир"
+          
+        division:
+          $ref: '#/components/schemas/Division'
+          
+    
+    Computers:
+      description: Model containing computers info
+      
+      properties:
+        id:
+          type: integer
+          example: 1
+        
+        name:
+          type: string
+          example: "PC1"
+          
+        division:
+          $ref: '#/components/schemas/Division'
+          
+    SchemaParams:
+      description: Model containing type info
+      
+      properties:
+        types:
+          type: string
+          example: 'USER'
+          
+        
+        body:
+          type: string
+          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+        
+          
+        
+      
+      
+      
+      
+
+  
+        
+  
