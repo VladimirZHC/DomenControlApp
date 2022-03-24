@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "GroupPolicyConstructor API",
-    "description": "Group policy constructor application for simulating a domain controller Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the GroupPolicyConstructor API. <br/><br/> **Note**: All parameters are optional, but you must select at least one parameter. Calling the API by city ID (using the `id` parameter) will provide the most precise location results.",
+    "description": "Group policy constructor application for simulating a domain controller Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the GroupPolicyConstructor API. <br/><br/>",
     "version": "0.1",
     "contact": {
       "name": "GroupPolicyConstructor API",
@@ -18,33 +18,13 @@
     {
       "url": "http://localhost:8000/",
       "description": "API root"
-    },
-    {
-      "url": "http://localhost:8000/division/",
-      "description": "Divisions list"
-    },
-    {
-      "url": "http://localhost:8000/grouppolicy/",
-      "description": "Group Policy list"
-    },
-    {
-      "url": "http://localhost:8000/users/",
-      "description": "User list"
-    },
-    {
-      "url": "http://localhost:8000/computers/",
-      "description": "Computer list"
-    },
-    {
-      "url": "http://localhost:8000/schema/",
-      "description": "Type list"
     }
   ],
   "paths": {
     "/division": {
       "get": {
         "tags": [
-          "Current Division  List"
+          "Divisions"
         ],
         "summary": "Call current divison list for one location.",
         "description": "Get current Division list",
@@ -83,7 +63,7 @@
       },
       "post": {
         "tags": [
-          "Post Division"
+          "Divisions"
         ],
         "summary": "Create division data",
         "description": "Create a new Division data in the Database",
@@ -103,36 +83,14 @@
             "description": "Successfully created a new Division"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Put Division"
-        ],
-        "summary": "Update division data",
-        "description": "Update Division data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Division"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully delete a new Division"
-          }
-        }
       }
     },
     "/division/{id}": {
       "get": {
         "tags": [
-          "Current Division ID"
+          "Divisions"
         ],
+        "summary": "Get division data by ID",
         "description": "Obtain information about specific division",
         "parameters": [
           {
@@ -172,10 +130,46 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Divisions"
+        ],
+        "summary": "Update division data",
+        "description": "Put Division data in the Database",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the division",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Division"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully delete a new Division"
+          }
+        }
+      },
       "delete": {
         "tags": [
-          "Delete Division by  ID"
+          "Divisions"
         ],
+        "summary": "Delete division data",
         "description": "Delete division by id",
         "parameters": [
           {
@@ -205,7 +199,7 @@
     "/grouppolicy": {
       "get": {
         "tags": [
-          "Current GroupPolicy  List"
+          "GroupPolicy"
         ],
         "summary": "Call current grouppolicy list for one location.",
         "description": "Get current groupPolicy list",
@@ -244,7 +238,7 @@
       },
       "post": {
         "tags": [
-          "Post GroupPolicy"
+          "GroupPolicy"
         ],
         "summary": "Create grouppolicy data",
         "description": "Create a new GroupPolicy data in the Database",
@@ -264,37 +258,15 @@
             "description": "Successfully created a new GroupPolicy"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Put GroupPolicy"
-        ],
-        "summary": "Update GroupPolicy data",
-        "description": "Update GroupPolicy data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/GroupPolicy"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new GroupPolicy"
-          }
-        }
       }
     },
     "/grouppolicy/{id}": {
       "get": {
         "tags": [
-          "Current GrouPolicy ID"
+          "GroupPolicy"
         ],
         "description": "Obtain information about specific GroupPolicy",
+        "summary": "Get grouppolicy data by ID",
         "parameters": [
           {
             "in": "path",
@@ -333,10 +305,46 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "GroupPolicy"
+        ],
+        "summary": "Update GroupPolicy data",
+        "description": "Update GroupPolicy data in the Database",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the grouppolicy",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/GroupPolicy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated a new GroupPolicy"
+          }
+        }
+      },
       "delete": {
         "tags": [
-          "Delete GroupPolicy by  ID"
+          "GroupPolicy"
         ],
+        "summary": "Delete GroupPolicy data",
         "description": "Delete grouppolicy by id",
         "parameters": [
           {
@@ -366,7 +374,7 @@
     "/users": {
       "get": {
         "tags": [
-          "Current User  List"
+          "DomenUser"
         ],
         "summary": "Call current User list for one location.",
         "description": "Get current User list",
@@ -405,7 +413,7 @@
       },
       "post": {
         "tags": [
-          "Post User"
+          "DomenUser"
         ],
         "summary": "Create user data",
         "description": "Create a new user data in the Database",
@@ -425,36 +433,14 @@
             "description": "Successfully created a new User"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Put User"
-        ],
-        "summary": "Update user data",
-        "description": "Update User data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/DomenUser"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new DomenUser"
-          }
-        }
       }
     },
     "/users/{id}": {
       "get": {
         "tags": [
-          "Current User ID"
+          "DomenUser"
         ],
+        "summary": "Get user data by ID",
         "description": "Obtain information about specific user",
         "parameters": [
           {
@@ -494,10 +480,46 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "DomenUser"
+        ],
+        "summary": "Update user data",
+        "description": "Update User data in the Database",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/DomenUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated a new DomenUser"
+          }
+        }
+      },
       "delete": {
         "tags": [
-          "Delete DomenUser by  ID"
+          "DomenUser"
         ],
+        "summary": "Delete user data",
         "description": "Delete user by id",
         "parameters": [
           {
@@ -527,7 +549,7 @@
     "/computers": {
       "get": {
         "tags": [
-          "Current Computer  List"
+          "Computers"
         ],
         "summary": "Call current Computer list for one location.",
         "description": "Get current Computer list",
@@ -566,7 +588,7 @@
       },
       "post": {
         "tags": [
-          "Post Computer"
+          "Computers"
         ],
         "summary": "Create computer data",
         "description": "Create a new computer data in the Database",
@@ -586,36 +608,14 @@
             "description": "Successfully created a new Computer"
           }
         }
-      },
-      "put": {
-        "tags": [
-          "Put Computer"
-        ],
-        "summary": "Update computer data",
-        "description": "Update Computer data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Computers"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new Computer"
-          }
-        }
       }
     },
     "/computers/{id}": {
       "get": {
         "tags": [
-          "Current Computer ID"
+          "Computers"
         ],
+        "summary": "Get computer by ID",
         "description": "Obtain information about specific computer",
         "parameters": [
           {
@@ -655,10 +655,46 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Computers"
+        ],
+        "summary": "Update computer data",
+        "description": "Update Computer data in the Database",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the computer",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Computers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated a new Computer"
+          }
+        }
+      },
       "delete": {
         "tags": [
-          "Delete Computers by  ID"
+          "Computers"
         ],
+        "summary": "Delete computer data",
         "description": "Delete computers by id",
         "parameters": [
           {
@@ -688,7 +724,7 @@
     "/schema": {
       "get": {
         "tags": [
-          "Current ShemaParams  List"
+          "SchemaParams"
         ],
         "summary": "Call current SchemaParams list for one location.",
         "description": "Get current SchemaParams list",
@@ -727,7 +763,7 @@
       },
       "post": {
         "tags": [
-          "Post SchemaParams"
+          "SchemaParams"
         ],
         "summary": "Create schemaparams data",
         "description": "Create a new schemaparams data in the Database",
@@ -750,7 +786,7 @@
       },
       "put": {
         "tags": [
-          "Put SchemaParams"
+          "SchemaParams"
         ],
         "summary": "Update SchemaParams data",
         "description": "Update SchemaParams data in the Database",
@@ -777,6 +813,11 @@
     "schemas": {
       "Division": {
         "description": "Model containing division info",
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -787,16 +828,23 @@
             "example": "Отдел контроля"
           },
           "departament": {
-            "$ref": "#/components/schemas/Division",
-            "example": "Отдел контроля"
+            "$ref": "#/components/schemas/DivisionParent"
           },
           "group_ploicy": {
-            "$ref": "#/components/schemas/GroupPolicy"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupPolicy"
+            }
           }
         }
       },
       "GroupPolicy": {
         "description": "Model containing group policy info",
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -814,6 +862,11 @@
       },
       "DomenUser": {
         "description": "Model containing user info",
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -830,6 +883,11 @@
       },
       "Computers": {
         "description": "Model containing computers info",
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -846,6 +904,10 @@
       },
       "SchemaParams": {
         "description": "Model containing type info",
+        "type": "object",
+        "required": [
+          "types"
+        ],
         "properties": {
           "types": {
             "type": "string",
@@ -854,6 +916,19 @@
           "body": {
             "type": "string",
             "example": "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+          }
+        }
+      },
+      "DivisionParent": {
+        "description": "Model containing info about parent",
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Отдел контроля"
           }
         }
       }
