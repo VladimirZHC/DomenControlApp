@@ -51,12 +51,6 @@ class Division(models.Model):
         blank=True,
         verbose_name='групповые политики',
     )
-    types = models.ManyToManyField(
-        SchemaParams,
-        related_name='types',
-        blank=True,
-        verbose_name='Тип',
-    )
     
     
     def __str__(self):
@@ -112,3 +106,6 @@ class Computers(models.Model):
         
         
 
+SchemaParams.objects.get_or_create(type="USER")
+SchemaParams.objects.get_or_create(type="HOST")
+Division.objects.get_or_create(name="root")

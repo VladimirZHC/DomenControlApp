@@ -28,7 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'control.apps.ControlConfig',
     'rest_framework',
-    'django_filters', 
+    'django_filters',
+    'drf_yasg',
+    'rest_framework_swagger',
+    
 ]
 
 MIDDLEWARE = [

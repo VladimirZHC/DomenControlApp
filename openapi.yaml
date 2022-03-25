@@ -1,7 +1,6 @@
 openapi: "3.0.0"
 info:
   title: "GroupPolicyConstructor API"
-  description: "Group policy constructor application for simulating a domain controller Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the GroupPolicyConstructor API. <br/><br/>"
   version: "0.1"
   contact:
     name: "GroupPolicyConstructor API"
@@ -13,47 +12,62 @@ info:
     
 servers:
 - url: "http://localhost:8000/"
-  description: "API root"
+  description: "API сервер"
 
 paths:
   /division:
     get:
       tags:
         - Divisions
-      summary: "Call current divison list for one location."
+      summary: "Вызов текущего списка подразделений"
   
-      description: "Get current Division list"
+      description: "Получить текущий список подразделений"
       
       operationId: "DivisionListData"
       
       responses:
         200:
-          description: Successful pull of division info
+          description: OK
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Division'
-            application/xml"\:
-              schema:
-                type: object
-                $ref: '#/components/schemas/Division'
+                properties:
+                  items:
+                    $ref: '#/components/schemas/Division'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
                     
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: DivisionList not found
-                type: string
-                example: Not found
+        500:
+          $ref: '#/components/responses/ErrorResponse'
     
     post:
       tags:
         - Divisions
-      summary: "Create division data"
+      summary: "Создание данных подразделения"
       
-      description: Create a new Division data in the Database
+      description: Создает подразделение в базе данных
+      
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Division'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+                    
       
       requestBody:
         required: true
@@ -61,68 +75,93 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Division'
+              properties:
+                data:
+                  type: object
+                  description: 'Поля, заполняемые при создании группы пользователей'
+                  properties:
+                    name:
+                      type: string
+                    parent:
+                      $ref: '#/components/schemas/DivisionParent'
+                    group_policies:
+                      $ref: '#/components/schemas/GroupPolicy'
+                
       
-      responses:
-        200:
-          description: Successfully created a new Division
-    
-    
-          
+ 
   /division/{id}:
     get:
       tags:
         - Divisions
         
         
-      summary: "Get division data by ID"
+      summary: Получить данные о подразделении по идентификатору
         
-      description: Obtain information about specific division
+      description: Получить информацию о конкретном подразделении
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the division
+          description: Идентификатор подразделения
           schema:
             type: integer
             example: 1
       
       responses:
         200:
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Division'
-                      
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: Division ID not found
-                type: string
-                example: Not found
+                properties:
+                  items:
+                    $ref: '#/components/schemas/Division'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
                 
     put:
       tags:
         - Divisions
         
-      summary: "Update division data"
+      summary: "Обновление данных подразделения"
       
-      description: "Put Division data in the Database"
+      description: "Обновляет данные подразделения в базу данных"
       
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the division
+          description: Идентификатор подразделения
           schema:
             type: integer
             example: 1
+            
+            
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Division'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
       
       requestBody:
         required: true
@@ -130,38 +169,52 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Division'
-              
-      responses:
-        200:
-          description: Successfully delete a new Division
-    
+              properties:
+                data:
+                  type: object
+                  description: 'Обновляемые поля'
+                  properties:
+                    name:
+                      type: string
+                    parent:
+                      $ref: '#/components/schemas/DivisionParent'
+                    group_policies:
+                      $ref: '#/components/schemas/GroupPolicy'
+            
                 
     delete:
       tags:
         - Divisions
         
-      summary: "Delete division data"
+      summary: "Удалить данные подразделения"
         
-      description: Delete division by id
+      description: Удалить подразделение по идентификатору
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the division
+          description: Идентификатор
           schema:
             type: integer
             example: 1
       
       responses:
-        '204':
-          description: Deleted
-        '404':
-          description: id not found
-        '401':
-          description: Unauthorized
-      
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                required:
+                  - success
+        
+        500:
+          $ref: '#/components/responses/ErrorResponse'
       
   /grouppolicy:
     get:
@@ -179,13 +232,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                $ref: '#/components/schemas/GroupPolicy'
-            application/xml"\:
-              schema:
-                type: object
-                $ref: '#/components/schemas/GroupPolicy'
-                    
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupPolicy'
         404:
           description: Not found response
           content:
@@ -276,7 +325,11 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/GroupPolicy'
+              properties:
+                name:
+                  type: string
+                body:
+                  type: string
               
       responses:
         200:
@@ -324,12 +377,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                $ref: '#/components/schemas/DomenUser'
-            application/xml"\:
-              schema:
-                type: object
-                $ref: '#/components/schemas/DomenUser'
+                type: array
+                items:
+                  $ref: '#/components/schemas/DomenUser'
                     
         404:
           description: Not found response
@@ -359,9 +409,7 @@ paths:
       responses:
         200:
           description: Successfully created a new User
-    
-    
-          
+
   /users/{id}:
     get:
       tags:
@@ -397,8 +445,7 @@ paths:
                 title: User ID not found
                 type: string
                 example: Not found
-                
-                
+  
     put:
       tags:
         - DomenUser
@@ -423,7 +470,11 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/DomenUser'
+              properties:
+                name:
+                  type: string
+                division:
+                  type: string
               
       responses:
         200:
@@ -453,7 +504,41 @@ paths:
           description: id not found
         '401':
           description: Unauthorized
-                
+
+  /users/{id}/policy:
+    get:
+      tags:
+        - DomenUser
+        
+      summary: "Get resulting policy for user"
+        
+      description: Obtain information about specific user
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the user 
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ResultPolicy'
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: User ID not found
+                type: string
+                example: Not found
   
   /computers:
     get:
@@ -471,12 +556,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                $ref: '#/components/schemas/Computers'
-            application/xml"\:
-              schema:
-                type: object
-                $ref: '#/components/schemas/Computers'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Computers'
                     
         404:
           description: Not found response
@@ -569,7 +651,11 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Computers'
+              properties:
+                name:
+                  type: string
+                division:
+                  type: string
               
       responses:
         200:
@@ -600,7 +686,38 @@ paths:
           description: id not found
         '401':
           description: Unauthorized
-                
+
+  /computers/{id}/policy:
+    get:
+      tags:
+        - Computers
+      summary: "Get resulting policy for computer"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the computer 
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ResultPolicy'
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Computer ID not found
+                type: string
+                example: Not found
+  
   /schema:
     get:
       tags:
@@ -617,12 +734,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                $ref: '#/components/schemas/SchemaParams'
-            application/xml"\:
-              schema:
-                type: object
-                $ref: '#/components/schemas/SchemaParams'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SchemaParams'
                     
         404:
           description: Not found response
@@ -632,22 +746,23 @@ paths:
                 title: SchemaParams not found
                 type: string
                 example: Not found
-    
-    post:
+  /schema/{id}:
+    get:
       tags:
         - SchemaParams
         
-      summary: "Create schemaparams data"
+      summary: "Retrieve a SchemaParams data"
       
       description: Create a new schemaparams data in the Database
       
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/SchemaParams'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the schema
+          schema:
+            type: string
+            example: USER
       
       responses:
         200:
@@ -661,13 +776,24 @@ paths:
       
       description: Update SchemaParams data in the Database
       
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the schema
+          schema:
+            type: string
+            example: USER
+      
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/SchemaParams'
+              properties:
+                body:
+                  type: string
               
       responses:
         200:
@@ -691,10 +817,10 @@ components:
           type: string
           example: "Отдел контроля"
         
-        departament:
+        parent:
           $ref: '#/components/schemas/DivisionParent'
                     
-        group_ploicy:
+        group_policies:
           type: array
           items:
            $ref: '#/components/schemas/GroupPolicy'
@@ -705,6 +831,7 @@ components:
       required:
         - id
         - name
+        - body
         
       properties:
         id:
@@ -762,38 +889,59 @@ components:
       description: Model containing type info
       type: object
       required:
-        - types
+        - type
+        - body
       properties:
-        types:
+        type:
           type: string
           example: 'USER'
-          
-        
         body:
           type: string
           example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
-          
+    ResultPolicy:
+      description: Resulting policy object
+      type: object
+      required:
+        - body
+      properties:
+        body:
+          type: string
+          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
     DivisionParent:
       description: Model containing info about parent
       type: object
       required:
         - name
-        
       properties:
         name:
           type: string
           example: "Отдел контроля"
-          
-        
-          
-        
-          
-        
-      
-      
-      
-      
-
   
-        
-  
+  responses:
+    ErrorResponse:
+      description: Стандартное сообщение об ошибке
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Сообщение об ошибке
+              success:
+                type: boolean
+                description: Результат выполнения операции
+            required:
+              - error
+              - success
+          examples:
+            example-1:
+              value:
+                error: string
+                success: false
+                
+            
+          
+          
+          
+          

@@ -2,7 +2,6 @@
   "openapi": "3.0.0",
   "info": {
     "title": "GroupPolicyConstructor API",
-    "description": "Group policy constructor application for simulating a domain controller Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the GroupPolicyConstructor API. <br/><br/>",
     "version": "0.1",
     "contact": {
       "name": "GroupPolicyConstructor API",
@@ -17,7 +16,7 @@
   "servers": [
     {
       "url": "http://localhost:8000/",
-      "description": "API root"
+      "description": "API сервер"
     }
   ],
   "paths": {
@@ -26,38 +25,31 @@
         "tags": [
           "Divisions"
         ],
-        "summary": "Call current divison list for one location.",
-        "description": "Get current Division list",
+        "summary": "Вызов текущего списка подразделений",
+        "description": "Получить текущий список подразделений",
         "operationId": "DivisionListData",
         "responses": {
           "200": {
-            "description": "Successful pull of division info",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Division"
-                }
-              },
-              "application/xml\"\\": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Division"
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/Division"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "DivisionList not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
@@ -65,22 +57,57 @@
         "tags": [
           "Divisions"
         ],
-        "summary": "Create division data",
-        "description": "Create a new Division data in the Database",
+        "summary": "Создание данных подразделения",
+        "description": "Создает подразделение в базе данных",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Division"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/Division"
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Поля, заполняемые при создании группы пользователей",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "parent": {
+                        "$ref": "#/components/schemas/DivisionParent"
+                      },
+                      "group_policies": {
+                        "$ref": "#/components/schemas/GroupPolicy"
+                      }
+                    }
+                  }
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully created a new Division"
           }
         }
       }
@@ -90,14 +117,14 @@
         "tags": [
           "Divisions"
         ],
-        "summary": "Get division data by ID",
-        "description": "Obtain information about specific division",
+        "summary": "Получить данные о подразделении по идентификатору",
+        "description": "Получить информацию о конкретном подразделении",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the division",
+            "description": "Идентификатор подразделения",
             "schema": {
               "type": "integer",
               "example": 1
@@ -106,27 +133,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Division"
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/Division"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "Division ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
@@ -134,34 +160,69 @@
         "tags": [
           "Divisions"
         ],
-        "summary": "Update division data",
-        "description": "Put Division data in the Database",
+        "summary": "Обновление данных подразделения",
+        "description": "Обновляет данные подразделения в базу данных",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the division",
+            "description": "Идентификатор подразделения",
             "schema": {
               "type": "integer",
               "example": 1
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Division"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/Division"
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Обновляемые поля",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "parent": {
+                        "$ref": "#/components/schemas/DivisionParent"
+                      },
+                      "group_policies": {
+                        "$ref": "#/components/schemas/GroupPolicy"
+                      }
+                    }
+                  }
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully delete a new Division"
           }
         }
       },
@@ -169,14 +230,14 @@
         "tags": [
           "Divisions"
         ],
-        "summary": "Delete division data",
-        "description": "Delete division by id",
+        "summary": "Удалить данные подразделения",
+        "description": "Удалить подразделение по идентификатору",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the division",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
@@ -184,14 +245,27 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Deleted"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "id not found"
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -210,14 +284,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/GroupPolicy"
-                }
-              },
-              "application/xml\"\\": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/GroupPolicy"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupPolicy"
+                  }
                 }
               }
             }
@@ -329,7 +399,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/GroupPolicy"
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -385,14 +462,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/DomenUser"
-                }
-              },
-              "application/xml\"\\": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/DomenUser"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DomenUser"
+                  }
                 }
               }
             }
@@ -504,7 +577,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/DomenUser"
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "division": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -546,6 +626,52 @@
         }
       }
     },
+    "/users/{id}/policy": {
+      "get": {
+        "tags": [
+          "DomenUser"
+        ],
+        "summary": "Get resulting policy for user",
+        "description": "Obtain information about specific user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ResultPolicy"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "User ID not found",
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/computers": {
       "get": {
         "tags": [
@@ -560,14 +686,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Computers"
-                }
-              },
-              "application/xml\"\\": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Computers"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Computers"
+                  }
                 }
               }
             }
@@ -679,7 +801,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/Computers"
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "division": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -721,6 +850,51 @@
         }
       }
     },
+    "/computers/{id}/policy": {
+      "get": {
+        "tags": [
+          "Computers"
+        ],
+        "summary": "Get resulting policy for computer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the computer",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ResultPolicy"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "title": "Computer ID not found",
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/schema": {
       "get": {
         "tags": [
@@ -735,14 +909,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/SchemaParams"
-                }
-              },
-              "application/xml\"\\": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/SchemaParams"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SchemaParams"
+                  }
                 }
               }
             }
@@ -760,24 +930,27 @@
             }
           }
         }
-      },
-      "post": {
+      }
+    },
+    "/schema/{id}": {
+      "get": {
         "tags": [
           "SchemaParams"
         ],
-        "summary": "Create schemaparams data",
+        "summary": "Retrieve a SchemaParams data",
         "description": "Create a new schemaparams data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/SchemaParams"
-              }
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the schema",
+            "schema": {
+              "type": "string",
+              "example": "USER"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successfully created a new SchemaParams"
@@ -790,13 +963,29 @@
         ],
         "summary": "Update SchemaParams data",
         "description": "Update SchemaParams data in the Database",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "The ID of the schema",
+            "schema": {
+              "type": "string",
+              "example": "USER"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/SchemaParams"
+                "properties": {
+                  "body": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -827,10 +1016,10 @@
             "type": "string",
             "example": "Отдел контроля"
           },
-          "departament": {
+          "parent": {
             "$ref": "#/components/schemas/DivisionParent"
           },
-          "group_ploicy": {
+          "group_policies": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GroupPolicy"
@@ -843,7 +1032,8 @@
         "type": "object",
         "required": [
           "id",
-          "name"
+          "name",
+          "body"
         ],
         "properties": {
           "id": {
@@ -906,13 +1096,27 @@
         "description": "Model containing type info",
         "type": "object",
         "required": [
-          "types"
+          "type",
+          "body"
         ],
         "properties": {
-          "types": {
+          "type": {
             "type": "string",
             "example": "USER"
           },
+          "body": {
+            "type": "string",
+            "example": "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+          }
+        }
+      },
+      "ResultPolicy": {
+        "description": "Resulting policy object",
+        "type": "object",
+        "required": [
+          "body"
+        ],
+        "properties": {
           "body": {
             "type": "string",
             "example": "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
@@ -929,6 +1133,40 @@
           "name": {
             "type": "string",
             "example": "Отдел контроля"
+          }
+        }
+      }
+    },
+    "responses": {
+      "ErrorResponse": {
+        "description": "Стандартное сообщение об ошибке",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Сообщение об ошибке"
+                },
+                "success": {
+                  "type": "boolean",
+                  "description": "Результат выполнения операции"
+                }
+              },
+              "required": [
+                "error",
+                "success"
+              ]
+            },
+            "examples": {
+              "example-1": {
+                "value": {
+                  "error": "string",
+                  "success": false
+                }
+              }
+            }
           }
         }
       }
