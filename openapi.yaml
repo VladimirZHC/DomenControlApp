@@ -15,7 +15,7 @@ servers:
   description: "API сервер"
 
 paths:
-  /division:
+  /divisions:
     get:
       tags:
         - Divisions
@@ -31,14 +31,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    $ref: '#/components/schemas/Division'
+                type: array
+                items:
+                  type: object
+                  properties:
+                    items:
+                      $ref: '#/components/schemas/Division'
                 
-                  success:
-                    type: boolean
-                    description: Признак успеха операции
+                    success:
+                      type: boolean
+                      description: Признак успеха операции
                     
         500:
           $ref: '#/components/responses/ErrorResponse'

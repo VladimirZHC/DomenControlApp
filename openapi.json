@@ -20,7 +20,7 @@
     }
   ],
   "paths": {
-    "/division": {
+    "/divisions": {
       "get": {
         "tags": [
           "Divisions"
@@ -34,14 +34,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "$ref": "#/components/schemas/Division"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "description": "Признак успеха операции"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "items": {
+                        "$ref": "#/components/schemas/Division"
+                      },
+                      "success": {
+                        "type": "boolean",
+                        "description": "Признак успеха операции"
+                      }
                     }
                   }
                 }
