@@ -23,28 +23,39 @@
     "/divisions": {
       "get": {
         "tags": [
-          "Divisions"
+          "Division"
         ],
         "summary": "Вызов текущего списка подразделений",
         "description": "Получить текущий список подразделений",
         "operationId": "DivisionListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FiltersQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OffsetQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortByQueryParam"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/Division"
-                      },
-                      "success": {
-                        "type": "boolean",
-                        "description": "Признак успеха операции"
                       }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
                     }
                   }
                 }
@@ -55,10 +66,12 @@
             "$ref": "#/components/responses/ErrorResponse"
           }
         }
-      },
+      }
+    },
+    "/division": {
       "post": {
         "tags": [
-          "Divisions"
+          "Division"
         ],
         "summary": "Создание данных подразделения",
         "description": "Создает подразделение в базе данных",
@@ -95,7 +108,7 @@
                 "properties": {
                   "data": {
                     "type": "object",
-                    "description": "Поля, заполняемые при создании группы пользователей",
+                    "description": "Поля, заполняемые при создании подразделения",
                     "properties": {
                       "name": {
                         "type": "string"
@@ -118,7 +131,7 @@
     "/division/{id}": {
       "get": {
         "tags": [
-          "Divisions"
+          "Division"
         ],
         "summary": "Получить данные о подразделении по идентификатору",
         "description": "Получить информацию о конкретном подразделении",
@@ -161,7 +174,7 @@
       },
       "put": {
         "tags": [
-          "Divisions"
+          "Division"
         ],
         "summary": "Обновление данных подразделения",
         "description": "Обновляет данные подразделения в базу данных",
@@ -231,7 +244,7 @@
       },
       "delete": {
         "tags": [
-          "Divisions"
+          "Division"
         ],
         "summary": "Удалить данные подразделения",
         "description": "Удалить подразделение по идентификатору",
@@ -273,62 +286,107 @@
         }
       }
     },
-    "/grouppolicy": {
+    "/grouppolicies": {
       "get": {
         "tags": [
           "GroupPolicy"
         ],
-        "summary": "Call current grouppolicy list for one location.",
-        "description": "Get current groupPolicy list",
+        "summary": "Вызов текущего списка групповых политик",
+        "description": "Получить текущий список групповых политик",
         "operationId": "GroupPolicyListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FiltersQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OffsetQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortByQueryParam"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful pull of grouppolicy info",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GroupPolicy"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/GroupPolicy"
+                      }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "GroupPolicy not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
-      },
+      }
+    },
+    "/grouppolicy": {
       "post": {
         "tags": [
           "GroupPolicy"
         ],
-        "summary": "Create grouppolicy data",
-        "description": "Create a new GroupPolicy data in the Database",
+        "summary": "Создание групповой политки",
+        "description": "Создает групповую политику в базе данных",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupPolicy"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/GroupPolicy"
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Поля, заполняемые при создании групповой политики",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "body": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully created a new GroupPolicy"
           }
         }
       }
@@ -338,14 +396,14 @@
         "tags": [
           "GroupPolicy"
         ],
-        "description": "Obtain information about specific GroupPolicy",
-        "summary": "Get grouppolicy data by ID",
+        "summary": "Получить данные о групповой политике по идентификатору",
+        "description": "Получить информацию о конкретной политике",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the grouppolicy",
+            "description": "Идентификатор подразделения",
             "schema": {
               "type": "integer",
               "example": 1
@@ -354,27 +412,26 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/GroupPolicy"
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/GroupPolicy"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "Division ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
@@ -382,20 +439,44 @@
         "tags": [
           "GroupPolicy"
         ],
-        "summary": "Update GroupPolicy data",
-        "description": "Update GroupPolicy data in the Database",
+        "summary": "Обновление данных групповой политики",
+        "description": "Обновляет данные групповой политики в базу данных",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the grouppolicy",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupPolicy"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
@@ -403,20 +484,21 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "body": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "description": "Обновляемые поля",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "body": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new GroupPolicy"
           }
         }
       },
@@ -424,14 +506,14 @@
         "tags": [
           "GroupPolicy"
         ],
-        "summary": "Delete GroupPolicy data",
-        "description": "Delete grouppolicy by id",
+        "summary": "Удалить данные групповой политики",
+        "description": "Удалить групповую политику по идентификатору",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the grouppolicy",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
@@ -439,14 +521,27 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Deleted"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "id not found"
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -454,59 +549,104 @@
     "/users": {
       "get": {
         "tags": [
-          "DomenUser"
+          "DomainUser"
         ],
-        "summary": "Call current User list for one location.",
-        "description": "Get current User list",
+        "summary": "Вызов текущего списка пользователей",
+        "description": "Получить список пользователей",
         "operationId": "UserListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FiltersQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OffsetQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortByQueryParam"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful pull of users info",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DomenUser"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/DomainUser"
+                      }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "DomainUser"
+        ],
+        "summary": "Создание пользователя",
+        "description": "Создать пользователя",
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "title": "UserList not found",
-                  "type": "string",
-                  "example": "Not found"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DomainUser"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
-        }
-      },
-      "post": {
-        "tags": [
-          "DomenUser"
-        ],
-        "summary": "Create user data",
-        "description": "Create a new user data in the Database",
+        },
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/DomenUser"
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Поля, заполняемые при создании подразделения",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "division": {
+                        "$ref": "#/components/schemas/Division"
+                      }
+                    }
+                  }
+                }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully created a new User"
           }
         }
       }
@@ -514,16 +654,16 @@
     "/users/{id}": {
       "get": {
         "tags": [
-          "DomenUser"
+          "DomainUser"
         ],
-        "summary": "Get user data by ID",
-        "description": "Obtain information about specific user",
+        "summary": "Получить данные о пользователе по идентификатору",
+        "description": "Получить информацию о конкретном пользователе",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the user",
+            "description": "Идентификатор пользователя",
             "schema": {
               "type": "integer",
               "example": 1
@@ -532,48 +672,71 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/DomenUser"
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/DomainUser"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "User ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
       "put": {
         "tags": [
-          "DomenUser"
+          "DomainUser"
         ],
-        "summary": "Update user data",
-        "description": "Update User data in the Database",
+        "summary": "Обновление данных пользователя",
+        "description": "Обновляет данные пользователя в базу данных",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the user",
+            "description": "Идентификатор пользоваеля",
             "schema": {
               "type": "integer",
               "example": 1
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DomainUser"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
@@ -581,35 +744,36 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "division": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "description": "Обновляемые поля",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "division": {
+                        "$ref": "#/components/schemas/Division"
+                      }
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new DomenUser"
-          }
         }
       },
       "delete": {
         "tags": [
-          "DomenUser"
+          "DomainUser"
         ],
-        "summary": "Delete user data",
-        "description": "Delete user by id",
+        "summary": "Удалить данные пользователя",
+        "description": "Удалить пользователя по идентификатору",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the user",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
@@ -617,14 +781,27 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Deleted"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "id not found"
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -632,16 +809,16 @@
     "/users/{id}/policy": {
       "get": {
         "tags": [
-          "DomenUser"
+          "DomainUser"
         ],
-        "summary": "Get resulting policy for user",
-        "description": "Obtain information about specific user",
+        "summary": "Получить результатирующую политику для пользователя",
+        "description": "Получить результатирую политику",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the user",
+            "description": "Идентификатор пользователя",
             "schema": {
               "type": "integer",
               "example": 1
@@ -660,17 +837,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "User ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -678,59 +846,80 @@
     "/computers": {
       "get": {
         "tags": [
-          "Computers"
+          "Computer"
         ],
-        "summary": "Call current Computer list for one location.",
-        "description": "Get current Computer list",
-        "operationId": "ComputerListData",
+        "summary": "Вызов текущего списка компьютеров",
+        "description": "Получить список компьютеров",
+        "operationId": "СomputerListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FiltersQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OffsetQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortByQueryParam"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful pull of computers info",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Computers"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Computer"
+                      }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/computer": {
+      "post": {
+        "tags": [
+          "Computer"
+        ],
+        "summary": "Создание компьютера",
+        "description": "Создать компьютер",
+        "responses": {
+          "200": {
+            "description": "OK",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "title": "ComputerList not found",
-                  "type": "string",
-                  "example": "Not found"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Computer"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Computers"
-        ],
-        "summary": "Create computer data",
-        "description": "Create a new computer data in the Database",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/Computers"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully created a new Computer"
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -738,16 +927,16 @@
     "/computers/{id}": {
       "get": {
         "tags": [
-          "Computers"
+          "Computer"
         ],
-        "summary": "Get computer by ID",
-        "description": "Obtain information about specific computer",
+        "summary": "Получить данные о компьютере по идентификатору",
+        "description": "Получить информацию о конкретном компьюетере",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the computer",
+            "description": "Идентификатор компьютера",
             "schema": {
               "type": "integer",
               "example": 1
@@ -756,48 +945,71 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Computers"
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/Computer"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "Computer ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
       "put": {
         "tags": [
-          "Computers"
+          "Computer"
         ],
-        "summary": "Update computer data",
-        "description": "Update Computer data in the Database",
+        "summary": "Обновление данных компьютера",
+        "description": "Обновляет данные компьютера в базу данных",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the computer",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Computer"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
@@ -805,35 +1017,36 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "division": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "description": "Обновляемые поля",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "body": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully updated a new Computer"
-          }
         }
       },
       "delete": {
         "tags": [
-          "Computers"
+          "Computer"
         ],
-        "summary": "Delete computer data",
-        "description": "Delete computers by id",
+        "summary": "Удалить данные компьютера",
+        "description": "Удалить компьютер по идентификатору",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the computer",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
@@ -841,14 +1054,27 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Deleted"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                }
+              }
+            }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "id not found"
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -856,15 +1082,16 @@
     "/computers/{id}/policy": {
       "get": {
         "tags": [
-          "Computers"
+          "Computer"
         ],
-        "summary": "Get resulting policy for computer",
+        "summary": "Получить результатирующую политику для компьютера",
+        "description": "Получить результатирую политику",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "ID of the computer",
+            "description": "Идентификатор компьютера",
             "schema": {
               "type": "integer",
               "example": 1
@@ -883,54 +1110,56 @@
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "Computer ID not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
     },
-    "/schema": {
+    "/schemas": {
       "get": {
         "tags": [
-          "SchemaParams"
+          "SchemaParam"
         ],
-        "summary": "Call current SchemaParams list for one location.",
-        "description": "Get current SchemaParams list",
+        "summary": "Вызов текущего списка параметров",
+        "description": "Получить список параметров",
         "operationId": "SchemaParamsListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FiltersQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/OffsetQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortByQueryParam"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful pull of schemaparams info",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SchemaParams"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SchemaParam"
+                      }
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Not found response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "title": "SchemaParams not found",
-                  "type": "string",
-                  "example": "Not found"
-                }
-              }
-            }
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -938,43 +1167,62 @@
     "/schema/{id}": {
       "get": {
         "tags": [
-          "SchemaParams"
+          "SchemaParam"
         ],
-        "summary": "Retrieve a SchemaParams data",
-        "description": "Create a new schemaparams data in the Database",
+        "summary": "Получить данные о схеме параметров по идентификатору",
+        "description": "Получить информацию о конкретной схеме параметров",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the schema",
+            "description": "Идентификатор",
             "schema": {
-              "type": "string",
-              "example": "USER"
+              "type": "integer",
+              "example": 1
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully created a new SchemaParams"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "$ref": "#/components/schemas/SchemaParam"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       },
       "put": {
         "tags": [
-          "SchemaParams"
+          "SchemaParam"
         ],
-        "summary": "Update SchemaParams data",
-        "description": "Update SchemaParams data in the Database",
+        "summary": "Обновление данных схемы параметров",
+        "description": "Обновляет данные схемы параметров в базу данных",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "The ID of the schema",
+            "description": "Идентификатор",
             "schema": {
-              "type": "string",
-              "example": "USER"
+              "type": "integer",
+              "example": 1
             }
           }
         ],
@@ -985,8 +1233,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "body": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "description": "Обновляемые поля",
+                    "properties": {
+                      "body": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -995,7 +1249,26 @@
         },
         "responses": {
           "200": {
-            "description": "Successfully updated a new SchemaParams"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SchemaParam"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "description": "Признак успеха операции"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
@@ -1053,7 +1326,7 @@
           }
         }
       },
-      "DomenUser": {
+      "DomainUser": {
         "description": "Model containing user info",
         "type": "object",
         "required": [
@@ -1074,7 +1347,7 @@
           }
         }
       },
-      "Computers": {
+      "Computer": {
         "description": "Model containing computers info",
         "type": "object",
         "required": [
@@ -1095,7 +1368,7 @@
           }
         }
       },
-      "SchemaParams": {
+      "SchemaParam": {
         "description": "Model containing type info",
         "type": "object",
         "required": [
@@ -1172,6 +1445,35 @@
             }
           }
         }
+      }
+    },
+    "parameters": {
+      "FiltersQueryParam": {
+        "name": "filters",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей"
+      },
+      "SortByQueryParam": {
+        "name": "sortby",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила сортировки для возвращаемого массива данных, пример: sortby=field1,-field2, где: field1,field2 - перечисление полей, по которым производится сортировка, знак \"-\" перед полем определяет обратную сортировку."
+      },
+      "OffsetQueryParam": {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Сдвиг по массиву записей для реализации пагинации"
       }
     }
   }

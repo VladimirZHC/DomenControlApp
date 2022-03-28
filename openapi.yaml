@@ -18,12 +18,17 @@ paths:
   /divisions:
     get:
       tags:
-        - Divisions
+        - Division
       summary: "Вызов текущего списка подразделений"
   
       description: "Получить текущий список подразделений"
       
       operationId: "DivisionListData"
+      
+      parameters:
+        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/OffsetQueryParam'
+        - $ref: '#/components/parameters/SortByQueryParam'
       
       responses:
         200:
@@ -31,23 +36,23 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
+                type: object
+                properties:
+                  data:
+                    type: array
                     items:
                       $ref: '#/components/schemas/Division'
-                
-                    success:
-                      type: boolean
-                      description: Признак успеха операции
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
                     
         500:
           $ref: '#/components/responses/ErrorResponse'
     
+  /division:
     post:
       tags:
-        - Divisions
+        - Division
       summary: "Создание данных подразделения"
       
       description: Создает подразделение в базе данных
@@ -80,7 +85,7 @@ paths:
               properties:
                 data:
                   type: object
-                  description: 'Поля, заполняемые при создании группы пользователей'
+                  description: 'Поля, заполняемые при создании подразделения'
                   properties:
                     name:
                       type: string
@@ -94,7 +99,7 @@ paths:
   /division/{id}:
     get:
       tags:
-        - Divisions
+        - Division
         
         
       summary: Получить данные о подразделении по идентификатору
@@ -130,7 +135,7 @@ paths:
                 
     put:
       tags:
-        - Divisions
+        - Division
         
       summary: "Обновление данных подразделения"
       
@@ -186,7 +191,7 @@ paths:
                 
     delete:
       tags:
-        - Divisions
+        - Division
         
       summary: "Удалить данные подразделения"
         
@@ -218,41 +223,65 @@ paths:
         500:
           $ref: '#/components/responses/ErrorResponse'
       
-  /grouppolicy:
+  /grouppolicies:
     get:
       tags:
         - GroupPolicy
-      summary: "Call current grouppolicy list for one location."
+      summary: "Вызов текущего списка групповых политик"
   
-      description: "Get current groupPolicy list"
+      description: "Получить текущий список групповых политик"
       
       operationId: "GroupPolicyListData"
       
+      parameters:
+        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/OffsetQueryParam'
+        - $ref: '#/components/parameters/SortByQueryParam'
+      
       responses:
         200:
-          description: Successful pull of grouppolicy info
+          description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GroupPolicy'
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: GroupPolicy not found
-                type: string
-                example: Not found
-    
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GroupPolicy'
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  /grouppolicy:
     post:
       tags:
         - GroupPolicy
-        
-      summary: "Create grouppolicy data"
+      summary: "Создание групповой политки"
       
-      description: Create a new GroupPolicy data in the Database
+      description: Создает групповую политику в базе данных
+      
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/GroupPolicy'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+                    
       
       requestBody:
         required: true
@@ -260,11 +289,16 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/GroupPolicy'
+              properties:
+                data:
+                  type: object
+                  description: 'Поля, заполняемые при создании групповой политики'
+                  properties:
+                    name:
+                      type: string
+                    body:
+                      type: string
       
-      responses:
-        200:
-          description: Successfully created a new GroupPolicy
     
           
   /grouppolicy/{id}:
@@ -272,54 +306,73 @@ paths:
       tags:
         - GroupPolicy
         
-      description: Obtain information about specific GroupPolicy
-      
-      summary: "Get grouppolicy data by ID"
+      summary: Получить данные о групповой политике по идентификатору
+        
+      description: Получить информацию о конкретной политике
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the grouppolicy
+          description: Идентификатор подразделения
           schema:
             type: integer
             example: 1
       
       responses:
         200:
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/GroupPolicy'
-                      
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: Division ID not found
-                type: string
-                example: Not found
+                properties:
+                  items:
+                    $ref: '#/components/schemas/GroupPolicy'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
                 
     put:
       tags:
         - GroupPolicy
         
-      summary: "Update GroupPolicy data"
+      summary: "Обновление данных групповой политики"
       
-      description: Update GroupPolicy data in the Database
+      description: "Обновляет данные групповой политики в базу данных"
       
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the grouppolicy
+          description: Идентификатор
           schema:
             type: integer
             example: 1
+            
+            
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/GroupPolicy'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
       
       requestBody:
         required: true
@@ -328,143 +381,110 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                body:
-                  type: string
-              
-      responses:
-        200:
-          description: Successfully updated a new GroupPolicy
-                
+                data:
+                  type: object
+                  description: 'Обновляемые поля'
+                  properties:
+                    name:
+                      type: string
+                    body:
+                      type: string
+            
                 
     delete:
       tags:
         - GroupPolicy
         
-      summary: "Delete GroupPolicy data"
+      summary: "Удалить данные групповой политики"
         
-      description: Delete grouppolicy by id
+      description: Удалить групповую политику по идентификатору
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the grouppolicy
+          description: Идентификатор
           schema:
             type: integer
             example: 1
       
       responses:
-        '204':
-          description: Deleted
-        '404':
-          description: id not found
-        '401':
-          description: Unauthorized
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                required:
+                  - success
+        
+        500:
+          $ref: '#/components/responses/ErrorResponse'
                 
   /users:
     get:
       tags:
-        - DomenUser
-      summary: "Call current User list for one location."
+        - DomainUser
+      summary: "Вызов текущего списка пользователей"
   
-      description: "Get current User list"
+      description: "Получить список пользователей"
       
       operationId: "UserListData"
       
-      responses:
-        200:
-          description: Successful pull of users info
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DomenUser'
-                    
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: UserList not found
-                type: string
-                example: Not found
-    
-    post:
-      tags:
-        - DomenUser
-        
-      summary: "Create user data"
-      
-      description: Create a new user data in the Database
-      
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/DomenUser'
-      
-      responses:
-        200:
-          description: Successfully created a new User
-
-  /users/{id}:
-    get:
-      tags:
-        - DomenUser
-        
-      summary: "Get user data by ID"
-        
-      description: Obtain information about specific user
-      
       parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the user 
-          schema:
-            type: integer
-            example: 1
+        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/OffsetQueryParam'
+        - $ref: '#/components/parameters/SortByQueryParam'
       
       responses:
         200:
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/DomenUser'
-                      
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: User ID not found
-                type: string
-                example: Not found
-  
-    put:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DomainUser'
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  /user:
+    post:
       tags:
-        - DomenUser
+        - DomainUser
         
-      summary: "Update user data"
+      summary: "Создание пользователя"
       
-      description: Update User data in the Database
+      description: Создать пользователя 
       
-      
-      parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the user 
-          schema:
-            type: integer
-            example: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DomainUser'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+                    
       
       requestBody:
         required: true
@@ -473,54 +493,152 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                division:
-                  type: string
-              
-      responses:
-        200:
-          description: Successfully updated a new DomenUser
-    
-    delete:
+                data:
+                  type: object
+                  description: 'Поля, заполняемые при создании подразделения'
+                  properties:
+                    name:
+                      type: string
+                    division:
+                      $ref: '#/components/schemas/Division'
+
+  /users/{id}:
+    get:
       tags:
-        - DomenUser 
+        - DomainUser
         
-      summary: "Delete user data"
+      summary: Получить данные о пользователе по идентификатору
         
-      description: Delete user by id
+      description: Получить информацию о конкретном пользователе
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the user
+          description: Идентификатор пользователя
           schema:
             type: integer
             example: 1
       
       responses:
-        '204':
-          description: Deleted
-        '404':
-          description: id not found
-        '401':
-          description: Unauthorized
-
-  /users/{id}/policy:
-    get:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    $ref: '#/components/schemas/DomainUser'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  
+    put:
       tags:
-        - DomenUser
+        - DomainUser
         
-      summary: "Get resulting policy for user"
-        
-      description: Obtain information about specific user
+      summary: "Обновление данных пользователя"
+      
+      description: "Обновляет данные пользователя в базу данных"
+      
       
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the user 
+          description: Идентификатор пользоваеля
+          schema:
+            type: integer
+            example: 1
+            
+            
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DomainUser'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: 'Обновляемые поля'
+                  properties:
+                    name:
+                      type: string
+                    division:
+                      $ref: '#/components/schemas/Division'
+    
+    delete:
+      tags:
+        - DomainUser
+        
+      summary: "Удалить данные пользователя"
+        
+      description: Удалить пользователя по идентификатору
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Идентификатор
+          schema:
+            type: integer
+            example: 1
+      
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                required:
+                  - success
+        
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /users/{id}/policy:
+    get:
+      tags:
+        - DomainUser
+        
+      summary: "Получить результатирующую политику для пользователя"
+        
+      description: Получить результатирую политику
+      
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Идентификатор пользователя 
           schema:
             type: integer
             example: 1
@@ -533,119 +651,145 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ResultPolicy'
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: User ID not found
-                type: string
-                example: Not found
+                
+        500:
+          $ref: '#/components/responses/ErrorResponse'
   
   /computers:
     get:
       tags:
-        - Computers
-      summary: "Call current Computer list for one location."
+        - Computer
+      summary: "Вызов текущего списка компьютеров"
   
-      description: "Get current Computer list"
+      description: "Получить список компьютеров"
       
-      operationId: "ComputerListData"
+      operationId: "СomputerListData"
+      
+      parameters:
+        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/OffsetQueryParam'
+        - $ref: '#/components/parameters/SortByQueryParam'
       
       responses:
         200:
-          description: Successful pull of computers info
+          description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Computers'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Computer'
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
                     
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: ComputerList not found
-                type: string
-                example: Not found
-    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  /computer:
     post:
       tags:
-        - Computers
+        - Computer
         
-      summary: "Create computer data"
+      summary: "Создание компьютера"
       
-      description: Create a new computer data in the Database
-      
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/Computers'
+      description: Создать компьютер 
       
       responses:
         200:
-          description: Successfully created a new Computer
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Computer'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
     
           
           
   /computers/{id}:
     get:
       tags:
-        - Computers
-      
-      summary: "Get computer by ID"
-      
-      description: Obtain information about specific computer
+        - Computer
+        
+      summary: Получить данные о компьютере по идентификатору
+        
+      description: Получить информацию о конкретном компьюетере
       
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the computer 
+          description: Идентификатор компьютера
           schema:
             type: integer
             example: 1
       
       responses:
         200:
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Computers'
-                      
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: Computer ID not found
-                type: string
-                example: Not found
+                properties:
+                  items:
+                    $ref: '#/components/schemas/Computer'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
                 
                 
     put:
       tags:
-        - Computers
+        - Computer
         
-      summary: "Update computer data"
+      summary: "Обновление данных компьютера"
       
-      description: Update Computer data in the Database
+      description: "Обновляет данные компьютера в базу данных"
+      
       
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the computer 
+          description: Идентификатор
           schema:
             type: integer
             example: 1
+            
+            
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Computer'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
       
       requestBody:
         required: true
@@ -654,51 +798,64 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                division:
-                  type: string
-              
-      responses:
-        200:
-          description: Successfully updated a new Computer
+                data:
+                  type: object
+                  description: 'Обновляемые поля'
+                  properties:
+                    name:
+                      type: string
+                    body:
+                      type: string
                 
                 
     delete:
       tags:
-        - Computers
+        - Computer
         
-      summary: "Delete computer data"
+      summary: "Удалить данные компьютера"
         
-      description: Delete computers by id
+      description: Удалить компьютер по идентификатору
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the computer
+          description: Идентификатор
           schema:
             type: integer
             example: 1
       
       responses:
-        '204':
-          description: Deleted
-        '404':
-          description: id not found
-        '401':
-          description: Unauthorized
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                required:
+                  - success
+        
+        500:
+          $ref: '#/components/responses/ErrorResponse'
 
   /computers/{id}/policy:
     get:
       tags:
-        - Computers
-      summary: "Get resulting policy for computer"
+        - Computer
+        
+      summary: "Получить результатирующую политику для компьютера"
+        
+      description: Получить результатирую политику
+      
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the computer 
+          description: Идентификатор компьютера 
           schema:
             type: integer
             example: 1
@@ -711,82 +868,98 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/ResultPolicy'
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: Computer ID not found
-                type: string
-                example: Not found
+                
+        500:
+          $ref: '#/components/responses/ErrorResponse'
   
-  /schema:
+  /schemas:
     get:
       tags:
-        - SchemaParams
-      summary: "Call current SchemaParams list for one location."
+        - SchemaParam
+      summary: "Вызов текущего списка параметров"
   
-      description: "Get current SchemaParams list"
+      description: "Получить список параметров"
       
       operationId: "SchemaParamsListData"
       
+      parameters:
+        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/OffsetQueryParam'
+        - $ref: '#/components/parameters/SortByQueryParam'
+      
       responses:
         200:
-          description: Successful pull of schemaparams info
+          description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SchemaParams'
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SchemaParam'
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
                     
-        404:
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: SchemaParams not found
-                type: string
-                example: Not found
+        500:
+          $ref: '#/components/responses/ErrorResponse'
   /schema/{id}:
     get:
       tags:
-        - SchemaParams
+        - SchemaParam
         
-      summary: "Retrieve a SchemaParams data"
-      
-      description: Create a new schemaparams data in the Database
+      summary: Получить данные о схеме параметров по идентификатору
+        
+      description: Получить информацию о конкретной схеме параметров
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the schema
+          description: Идентификатор
           schema:
-            type: string
-            example: USER
+            type: integer
+            example: 1
       
       responses:
         200:
-          description: Successfully created a new SchemaParams
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    $ref: '#/components/schemas/SchemaParam'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
     
     put:
       tags:
-        - SchemaParams
+        - SchemaParam
         
-      summary: "Update SchemaParams data"
+      summary: "Обновление данных схемы параметров"
       
-      description: Update SchemaParams data in the Database
+      description: "Обновляет данные схемы параметров в базу данных"
+      
       
       parameters:
         - in: path
           name: id
           required: true
-          description: The ID of the schema
+          description: Идентификатор
           schema:
-            type: string
-            example: USER
-      
+            type: integer
+            example: 1
+            
+            
       requestBody:
         required: true
         content:
@@ -794,12 +967,33 @@ paths:
             schema:
               type: object
               properties:
-                body:
-                  type: string
-              
+                data:
+                  type: object
+                  description: 'Обновляемые поля'
+                  properties:
+                    body:
+                      type: string
+            
       responses:
         200:
-          description: Successfully updated a new SchemaParams
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SchemaParam'
+                
+                  success:
+                    type: boolean
+                    description: Признак успеха операции
+                    
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+          
+          
+
 
 components:
   schemas:
@@ -848,7 +1042,7 @@ components:
           type: string
           example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
          
-    DomenUser:
+    DomainUser:
       description: Model containing user info
       type: object
       required:
@@ -868,7 +1062,7 @@ components:
           $ref: '#/components/schemas/Division'
           
     
-    Computers:
+    Computer:
       description: Model containing computers info
       type: object
       required:
@@ -887,7 +1081,7 @@ components:
         division:
           $ref: '#/components/schemas/Division'
           
-    SchemaParams:
+    SchemaParam:
       description: Model containing type info
       type: object
       required:
@@ -942,8 +1136,32 @@ components:
                 error: string
                 success: false
                 
+  parameters:
+    FiltersQueryParam:
+      name: filters
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей'
+      
+      
+    SortByQueryParam:
+      name: sortby
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила сортировки для возвращаемого массива данных, пример: sortby=field1,-field2, где: field1,field2 - перечисление полей, по которым производится сортировка, знак "-" перед полем определяет обратную сортировку.'
+                
             
-          
+    OffsetQueryParam:
+      name: offset
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: 'Сдвиг по массиву записей для реализации пагинации'
           
           
           
