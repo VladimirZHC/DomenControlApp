@@ -92,7 +92,9 @@ paths:
                     parent:
                       $ref: '#/components/schemas/DivisionParent'
                     group_policies:
-                      $ref: '#/components/schemas/GroupPolicy'
+                      type: array
+                      items:
+                          $ref: '#/components/schemas/GroupPolicy'
                 
       
  
@@ -123,7 +125,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  items:
+                  data:
                     $ref: '#/components/schemas/Division'
                 
                   success:
@@ -186,7 +188,9 @@ paths:
                     parent:
                       $ref: '#/components/schemas/DivisionParent'
                     group_policies:
-                      $ref: '#/components/schemas/GroupPolicy'
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GroupPolicy'
             
                 
     delete:
@@ -327,7 +331,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  items:
+                  data:
                     $ref: '#/components/schemas/GroupPolicy'
                 
                   success:
@@ -499,6 +503,7 @@ paths:
                   properties:
                     name:
                       type: string
+                      example: "Владимир"
                     division:
                       $ref: '#/components/schemas/Division'
 
@@ -528,7 +533,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  items:
+                  data:
                     $ref: '#/components/schemas/DomainUser'
                 
                   success:
@@ -695,7 +700,25 @@ paths:
         
       summary: "Создание компьютера"
       
-      description: Создать компьютер 
+      description: Создать компьютер
+      
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: 'Поля, заполняемые при создании подразделения'
+                  properties:
+                    name:
+                      type: string
+                      example: 'PC1'
+                    division:
+                      $ref: '#/components/schemas/Division'
       
       responses:
         200:
@@ -743,7 +766,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  items:
+                  data:
                     $ref: '#/components/schemas/Computer'
                 
                   success:

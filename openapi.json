@@ -117,7 +117,10 @@
                         "$ref": "#/components/schemas/DivisionParent"
                       },
                       "group_policies": {
-                        "$ref": "#/components/schemas/GroupPolicy"
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/GroupPolicy"
+                        }
                       }
                     }
                   }
@@ -155,7 +158,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "items": {
+                    "data": {
                       "$ref": "#/components/schemas/Division"
                     },
                     "success": {
@@ -232,7 +235,10 @@
                         "$ref": "#/components/schemas/DivisionParent"
                       },
                       "group_policies": {
-                        "$ref": "#/components/schemas/GroupPolicy"
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/GroupPolicy"
+                        }
                       }
                     }
                   }
@@ -418,7 +424,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "items": {
+                    "data": {
                       "$ref": "#/components/schemas/GroupPolicy"
                     },
                     "success": {
@@ -637,7 +643,8 @@
                     "description": "Поля, заполняемые при создании подразделения",
                     "properties": {
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Владимир"
                       },
                       "division": {
                         "$ref": "#/components/schemas/Division"
@@ -678,7 +685,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "items": {
+                    "data": {
                       "$ref": "#/components/schemas/DomainUser"
                     },
                     "success": {
@@ -898,6 +905,31 @@
         ],
         "summary": "Создание компьютера",
         "description": "Создать компьютер",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "description": "Поля, заполняемые при создании подразделения",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "PC1"
+                      },
+                      "division": {
+                        "$ref": "#/components/schemas/Division"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -951,7 +983,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "items": {
+                    "data": {
                       "$ref": "#/components/schemas/Computer"
                     },
                     "success": {
