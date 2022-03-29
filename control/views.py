@@ -11,7 +11,7 @@ class DivisionViewSet(viewsets.ModelViewSet):
     serializer_class = DivisionSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
     filterset_fields = ['name', 'group_policy']
-    search_fields = ['name', 'divisions', 'group_policy' ]
+    search_fields = ['name' ]
     
 
     

@@ -29,6 +29,7 @@ paths:
         - $ref: '#/components/parameters/FiltersQueryParam'
         - $ref: '#/components/parameters/OffsetQueryParam'
         - $ref: '#/components/parameters/SortByQueryParam'
+        - $ref: '#/components/parameters/SearchQueryParam'
       
       responses:
         200:
@@ -90,7 +91,7 @@ paths:
                     name:
                       type: string
                     parent:
-                      $ref: '#/components/schemas/DivisionParent'
+                      $ref: '#/components/schemas/Division'
                     group_policies:
                       type: array
                       items:
@@ -186,7 +187,7 @@ paths:
                     name:
                       type: string
                     parent:
-                      $ref: '#/components/schemas/DivisionParent'
+                      $ref: '#/components/schemas/Division'
                     group_policies:
                       type: array
                       items:
@@ -241,6 +242,7 @@ paths:
         - $ref: '#/components/parameters/FiltersQueryParam'
         - $ref: '#/components/parameters/OffsetQueryParam'
         - $ref: '#/components/parameters/SortByQueryParam'
+        - $ref: '#/components/parameters/SearchQueryParam'
       
       responses:
         200:
@@ -443,6 +445,7 @@ paths:
         - $ref: '#/components/parameters/FiltersQueryParam'
         - $ref: '#/components/parameters/OffsetQueryParam'
         - $ref: '#/components/parameters/SortByQueryParam'
+        - $ref: '#/components/parameters/SearchQueryParam'
       
       responses:
         200:
@@ -674,6 +677,7 @@ paths:
         - $ref: '#/components/parameters/FiltersQueryParam'
         - $ref: '#/components/parameters/OffsetQueryParam'
         - $ref: '#/components/parameters/SortByQueryParam'
+        - $ref: '#/components/parameters/SearchQueryParam'
       
       responses:
         200:
@@ -907,8 +911,6 @@ paths:
       
       parameters:
         - $ref: '#/components/parameters/FiltersQueryParam'
-        - $ref: '#/components/parameters/OffsetQueryParam'
-        - $ref: '#/components/parameters/SortByQueryParam'
       
       responses:
         200:
@@ -1021,7 +1023,7 @@ paths:
 components:
   schemas:
     Division:
-      description: Model containing division info
+      description: Модель, в которой хранится информация о подразделении
       type: object
       required:
         - id
@@ -1037,7 +1039,7 @@ components:
           example: "Отдел контроля"
         
         parent:
-          $ref: '#/components/schemas/DivisionParent'
+          $ref: '#/components/schemas/Division'
                     
         group_policies:
           type: array
@@ -1045,7 +1047,7 @@ components:
            $ref: '#/components/schemas/GroupPolicy'
           
     GroupPolicy:
-      description: Model containing group policy info
+      description: Модель, в которой хранится информация о групповой политики
       type: object
       required:
         - id
@@ -1066,7 +1068,7 @@ components:
           example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
          
     DomainUser:
-      description: Model containing user info
+      description: Модель, в которой хранится информация о пользователе
       type: object
       required:
         - id
@@ -1086,7 +1088,7 @@ components:
           
     
     Computer:
-      description: Model containing computers info
+      description: Модель, в которой хранится информация о компьютере
       type: object
       required:
         - id
@@ -1105,7 +1107,7 @@ components:
           $ref: '#/components/schemas/Division'
           
     SchemaParam:
-      description: Model containing type info
+      description: Модель, в которой хранится информация о схемах параметров
       type: object
       required:
         - type
@@ -1118,7 +1120,7 @@ components:
           type: string
           example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
     ResultPolicy:
-      description: Resulting policy object
+      description: Модель, в которой хранится информация о результатирующих политииках
       type: object
       required:
         - body
@@ -1126,15 +1128,6 @@ components:
         body:
           type: string
           example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
-    DivisionParent:
-      description: Model containing info about parent
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: "Отдел контроля"
   
   responses:
     ErrorResponse:
@@ -1175,7 +1168,7 @@ components:
       required: false
       schema:
         type: string
-      description: 'Правила сортировки для возвращаемого массива данных, пример: sortby=field1,-field2, где: field1,field2 - перечисление полей, по которым производится сортировка, знак "-" перед полем определяет обратную сортировку.'
+      description: 'Правила сортировки для возвращаемого массива данных'
                 
             
     OffsetQueryParam:
@@ -1185,6 +1178,15 @@ components:
       schema:
         type: integer
       description: 'Сдвиг по массиву записей для реализации пагинации'
+      
+      
+    SearchQueryParam:
+      name: search
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила поиска, применяемые к массиву записей'
           
           
           
