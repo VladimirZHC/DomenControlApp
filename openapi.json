@@ -33,10 +33,10 @@
             "$ref": "#/components/parameters/FiltersQueryParam"
           },
           {
-            "$ref": "#/components/parameters/OffsetQueryParam"
+            "$ref": "#/components/parameters/Page"
           },
           {
-            "$ref": "#/components/parameters/SortByQueryParam"
+            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -308,10 +308,10 @@
             "$ref": "#/components/parameters/FiltersQueryParam"
           },
           {
-            "$ref": "#/components/parameters/OffsetQueryParam"
+            "$ref": "#/components/parameters/Page"
           },
           {
-            "$ref": "#/components/parameters/SortByQueryParam"
+            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -571,10 +571,10 @@
             "$ref": "#/components/parameters/FiltersQueryParam"
           },
           {
-            "$ref": "#/components/parameters/OffsetQueryParam"
+            "$ref": "#/components/parameters/Page"
           },
           {
-            "$ref": "#/components/parameters/SortByQueryParam"
+            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -872,10 +872,10 @@
             "$ref": "#/components/parameters/FiltersQueryParam"
           },
           {
-            "$ref": "#/components/parameters/OffsetQueryParam"
+            "$ref": "#/components/parameters/Page"
           },
           {
-            "$ref": "#/components/parameters/SortByQueryParam"
+            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -1480,25 +1480,25 @@
         "schema": {
           "type": "string"
         },
-        "description": "Правила фильтрации, применяемые к массиву записей"
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?group_policy=5 вернет список подразделений с одинаковой групповой политикой, http://127.0.0.1:8000/divisions/?name=Отдел+безопасности вернет список подразделений с названием <Отдел безопасности> "
       },
-      "SortByQueryParam": {
-        "name": "sortby",
+      "OrderByQueryParam": {
+        "name": "orderby",
         "in": "query",
         "required": false,
         "schema": {
           "type": "string"
         },
-        "description": "Правила сортировки для возвращаемого массива данных"
+        "description": "Правила сортировки для возвращаемого массива данных, пример: http://127.0.0.1:8000/divisions/?ordering=-departament/departament вернет отсортированный массив по подразделению в обычном или обратном порядке"
       },
-      "OffsetQueryParam": {
-        "name": "offset",
+      "Page": {
+        "name": "page",
         "in": "query",
         "required": false,
         "schema": {
           "type": "integer"
         },
-        "description": "Сдвиг по массиву записей для реализации пагинации"
+        "description": "Реализация пагинации, пример: http://127.0.0.1:8000/divisions/?page=2 отобразит вторую страницу"
       },
       "SearchQueryParam": {
         "name": "search",
@@ -1507,7 +1507,7 @@
         "schema": {
           "type": "string"
         },
-        "description": "Правила поиска, применяемые к массиву записей"
+        "description": "Правила поиска, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?search=Отдел + продаж  Найдёт запись с апрашиваемым именем подразделения"
       }
     }
   }
