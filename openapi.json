@@ -3,6 +3,7 @@
   "info": {
     "title": "GroupPolicyConstructor API",
     "version": "0.1",
+    "description": "Test API",
     "contact": {
       "name": "GroupPolicyConstructor API",
       "url": "http://localhost:8000/",
@@ -15,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/",
+      "url": "http://localhost:8000",
       "description": "API сервер"
     }
   ],
@@ -78,6 +79,7 @@
         ],
         "summary": "Создание данных подразделения",
         "description": "Создает подразделение в базе данных",
+        "operationId": "DivisionData",
         "responses": {
           "200": {
             "description": "OK",
@@ -117,7 +119,7 @@
                         "type": "string"
                       },
                       "parent": {
-                        "$ref": "#/components/schemas/Division"
+                        "$ref": "#/components/schemas/DivisionParent"
                       },
                       "group_policies": {
                         "type": "array",
@@ -141,6 +143,7 @@
         ],
         "summary": "Получить данные о подразделении по идентификатору",
         "description": "Получить информацию о конкретном подразделении",
+        "operationId": "DivisionID",
         "parameters": [
           {
             "in": "path",
@@ -184,6 +187,7 @@
         ],
         "summary": "Обновление данных подразделения",
         "description": "Обновляет данные подразделения в базу данных",
+        "operationId": "DivisionPUT",
         "parameters": [
           {
             "in": "path",
@@ -235,7 +239,7 @@
                         "type": "string"
                       },
                       "parent": {
-                        "$ref": "#/components/schemas/Division"
+                        "$ref": "#/components/schemas/DivisionParent"
                       },
                       "group_policies": {
                         "type": "array",
@@ -257,6 +261,7 @@
         ],
         "summary": "Удалить данные подразделения",
         "description": "Удалить подразделение по идентификатору",
+        "operationId": "DivisionDelete",
         "parameters": [
           {
             "in": "path",
@@ -353,6 +358,7 @@
         ],
         "summary": "Создание групповой политки",
         "description": "Создает групповую политику в базе данных",
+        "operationId": "GroupPolicyPost",
         "responses": {
           "200": {
             "description": "OK",
@@ -410,6 +416,7 @@
         ],
         "summary": "Получить данные о групповой политике по идентификатору",
         "description": "Получить информацию о конкретной политике",
+        "operationId": "GroupPolicyID",
         "parameters": [
           {
             "in": "path",
@@ -453,6 +460,7 @@
         ],
         "summary": "Обновление данных групповой политики",
         "description": "Обновляет данные групповой политики в базу данных",
+        "operationId": "GroupPolicyPut",
         "parameters": [
           {
             "in": "path",
@@ -520,6 +528,7 @@
         ],
         "summary": "Удалить данные групповой политики",
         "description": "Удалить групповую политику по идентификатору",
+        "operationId": "GroupPolicyDelete",
         "parameters": [
           {
             "in": "path",
@@ -616,6 +625,7 @@
         ],
         "summary": "Создание пользователя",
         "description": "Создать пользователя",
+        "operationId": "UserPost",
         "responses": {
           "200": {
             "description": "OK",
@@ -674,6 +684,7 @@
         ],
         "summary": "Получить данные о пользователе по идентификатору",
         "description": "Получить информацию о конкретном пользователе",
+        "operationId": "UserID",
         "parameters": [
           {
             "in": "path",
@@ -717,6 +728,7 @@
         ],
         "summary": "Обновление данных пользователя",
         "description": "Обновляет данные пользователя в базу данных",
+        "operationId": "UserPut",
         "parameters": [
           {
             "in": "path",
@@ -784,6 +796,7 @@
         ],
         "summary": "Удалить данные пользователя",
         "description": "Удалить пользователя по идентификатору",
+        "operationId": "UserDelete",
         "parameters": [
           {
             "in": "path",
@@ -829,6 +842,7 @@
         ],
         "summary": "Получить результатирующую политику для пользователя",
         "description": "Получить результатирую политику",
+        "operationId": "DomainUserID",
         "parameters": [
           {
             "in": "path",
@@ -847,7 +861,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "$ref": "#/components/schemas/ResultPolicy"
                 }
               }
@@ -866,7 +879,7 @@
         ],
         "summary": "Вызов текущего списка компьютеров",
         "description": "Получить список компьютеров",
-        "operationId": "СomputerListData",
+        "operationId": "GroupPolicyList",
         "parameters": [
           {
             "$ref": "#/components/parameters/FiltersQueryParam"
@@ -917,6 +930,7 @@
         ],
         "summary": "Создание компьютера",
         "description": "Создать компьютер",
+        "operationId": "ComputerPost",
         "requestBody": {
           "required": true,
           "content": {
@@ -975,6 +989,7 @@
         ],
         "summary": "Получить данные о компьютере по идентификатору",
         "description": "Получить информацию о конкретном компьюетере",
+        "operationId": "ComputerID",
         "parameters": [
           {
             "in": "path",
@@ -1018,6 +1033,7 @@
         ],
         "summary": "Обновление данных компьютера",
         "description": "Обновляет данные компьютера в базу данных",
+        "operationId": "ComputerPut",
         "parameters": [
           {
             "in": "path",
@@ -1085,6 +1101,7 @@
         ],
         "summary": "Удалить данные компьютера",
         "description": "Удалить компьютер по идентификатору",
+        "operationId": "ComputerDelete",
         "parameters": [
           {
             "in": "path",
@@ -1130,6 +1147,7 @@
         ],
         "summary": "Получить результатирующую политику для компьютера",
         "description": "Получить результатирую политику",
+        "operationId": "GroupPolicyIDResult",
         "parameters": [
           {
             "in": "path",
@@ -1148,7 +1166,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "$ref": "#/components/schemas/ResultPolicy"
                 }
               }
@@ -1208,6 +1225,7 @@
           "SchemaParam"
         ],
         "summary": "Получить данные о схеме параметров по идентификатору",
+        "operationId": "Schema",
         "description": "Получить информацию о конкретной схеме параметров",
         "parameters": [
           {
@@ -1252,6 +1270,7 @@
         ],
         "summary": "Обновление данных схемы параметров",
         "description": "Обновляет данные схемы параметров в базу данных",
+        "operationId": "SchemaPut",
         "parameters": [
           {
             "in": "path",
@@ -1331,7 +1350,7 @@
             "example": "Отдел контроля"
           },
           "parent": {
-            "$ref": "#/components/schemas/Division"
+            "$ref": "#/components/schemas/DivisionParent"
           },
           "group_policies": {
             "type": "array",
@@ -1434,6 +1453,19 @@
           "body": {
             "type": "string",
             "example": "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+          }
+        }
+      },
+      "DivisionParent": {
+        "description": "Model containing info about parent",
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Отдел контроля"
           }
         }
       }
