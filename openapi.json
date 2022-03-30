@@ -31,7 +31,10 @@
         "operationId": "DivisionListData",
         "parameters": [
           {
-            "$ref": "#/components/parameters/FiltersQueryParam"
+            "$ref": "#/components/parameters/FiltersDivisionName"
+          },
+          {
+            "$ref": "#/components/parameters/FiltersDivisionGroupPolicy"
           },
           {
             "$ref": "#/components/parameters/Page"
@@ -310,7 +313,7 @@
         "operationId": "GroupPolicyListData",
         "parameters": [
           {
-            "$ref": "#/components/parameters/FiltersQueryParam"
+            "$ref": "#/components/parameters/FiltersGroupName"
           },
           {
             "$ref": "#/components/parameters/Page"
@@ -422,7 +425,7 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Идентификатор подразделения",
+            "description": "Идентификатор",
             "schema": {
               "type": "integer",
               "example": 1
@@ -577,13 +580,13 @@
         "operationId": "UserListData",
         "parameters": [
           {
-            "$ref": "#/components/parameters/FiltersQueryParam"
+            "$ref": "#/components/parameters/FiltersUserName"
+          },
+          {
+            "$ref": "#/components/parameters/FiltersUserDivision"
           },
           {
             "$ref": "#/components/parameters/Page"
-          },
-          {
-            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -882,13 +885,13 @@
         "operationId": "GroupPolicyList",
         "parameters": [
           {
-            "$ref": "#/components/parameters/FiltersQueryParam"
+            "$ref": "#/components/parameters/FiltersComputerName"
+          },
+          {
+            "$ref": "#/components/parameters/FiltersComputerDivision"
           },
           {
             "$ref": "#/components/parameters/Page"
-          },
-          {
-            "$ref": "#/components/parameters/OrderByQueryParam"
           },
           {
             "$ref": "#/components/parameters/SearchQueryParam"
@@ -921,9 +924,7 @@
             "$ref": "#/components/responses/ErrorResponse"
           }
         }
-      }
-    },
-    "/computer": {
+      },
       "post": {
         "tags": [
           "Computer"
@@ -1187,7 +1188,7 @@
         "operationId": "SchemaParamsListData",
         "parameters": [
           {
-            "$ref": "#/components/parameters/FiltersQueryParam"
+            "$ref": "#/components/parameters/FiltersSchemaType"
           }
         ],
         "responses": {
@@ -1331,6 +1332,28 @@
       }
     }
   },
+  "tags": [
+    {
+      "name": "Division",
+      "description": "Получить данные о подразделении"
+    },
+    {
+      "name": "GroupPolicy",
+      "description": "Получить данные о групповой политики"
+    },
+    {
+      "name": "DomainUser",
+      "description": "Получить данные о пользователе"
+    },
+    {
+      "name": "Computer",
+      "description": "Получить данные о компьютере"
+    },
+    {
+      "name": "SchemaParam",
+      "description": "Получить данные о схеме параметров"
+    }
+  ],
   "components": {
     "schemas": {
       "Division": {
@@ -1357,6 +1380,22 @@
             "items": {
               "$ref": "#/components/schemas/GroupPolicy"
             }
+          }
+        },
+        "x-examples": {
+          "example-1": {
+            "id": 1,
+            "name": "Отдел контроля",
+            "parent": {
+              "name": "Отдел контроля"
+            },
+            "group_policies": [
+              {
+                "id": 1,
+                "name": "Политичная",
+                "body": "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+              }
+            ]
           }
         }
       },
@@ -1457,7 +1496,7 @@
         }
       },
       "DivisionParent": {
-        "description": "Model containing info about parent",
+        "description": "Модель, котороая содержит информацию о родителе подразделения",
         "type": "object",
         "required": [
           "name"
@@ -1505,17 +1544,80 @@
       }
     },
     "parameters": {
-      "FiltersQueryParam": {
-        "name": "filters",
+      "FiltersDivisionName": {
+        "name": "name",
         "in": "query",
         "required": false,
         "schema": {
           "type": "string"
         },
-        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?group_policy=5 вернет список подразделений с одинаковой групповой политикой, http://127.0.0.1:8000/divisions/?name=Отдел+безопасности вернет список подразделений с названием <Отдел безопасности> "
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?name=Отдел+безопасности вернет список подразделений с названием <Отдел безопасности>"
+      },
+      "FiltersDivisionGroupPolicy": {
+        "name": "group_policies",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?group_policy=5 вернет список подразделений с одинаковой групповой политикой"
+      },
+      "FiltersGroupName": {
+        "name": "name",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/grouppolicies/?name=Политичная вернёт запись с запрашиваемым именем групповой политии"
+      },
+      "FiltersUserName": {
+        "name": "name",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/users/?name=Владимир вернёт пользователя или список пользователей с запршиваемым именем пользователя"
+      },
+      "FiltersUserDivision": {
+        "name": "division",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/users/?divison=2 вернёт пользователя или список пользователей с запршиваемым именем подразделения"
+      },
+      "FiltersComputerName": {
+        "name": "name",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/computers/?name=PC1 вернёт компьютер или список компьютеров с запршиваемым именем компьюетра"
+      },
+      "FiltersComputerDivision": {
+        "name": "division",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/computers/?division=2 вернёт компьютер или список компьютеров с запршиваемым именем подразделения"
+      },
+      "FiltersSchemaType": {
+        "name": "Type",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/schemas/?type=USER вернёт пользовательскую схему параметров"
       },
       "OrderByQueryParam": {
-        "name": "orderby",
+        "name": "ordering",
         "in": "query",
         "required": false,
         "schema": {

@@ -38,7 +38,7 @@ class GroupPolicyViewSet(viewsets.ModelViewSet):
     queryset = GroupPolicy.objects.all()
     serializer_class = GroupPolicySerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
-    filterset_fields = ['name', 'body']
+    filterset_fields = ['name',]
     search_fields = ['name', ]
 
 

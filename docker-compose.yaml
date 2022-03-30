@@ -1,0 +1,17 @@
+# swagger-ui:
+#   image: swaggerapi/swagger-ui
+#   container_name: swagger_ui_container
+#   ports:
+#       - "50:8080"
+#   volumes:
+#       - /home/vladimir/Djangoprojects/domencontrol
+
+
+#   environment:
+#     URLS_PRIMARY_NAME: "CheckServer"
+#     URLS: "[{ url: 'domencontrol/openapi.yaml', name: 'UserManagement'},
+#           { url: 'domencontrol/checkapi.yaml', name: 'CheckServer'},
+#         ]"
+
+
+#docker run -p 50:8080 -e BASE_URL=/swagger -e SWAGGER_JSON=/foo/openapi.json -v /home/vladimir/Djangoprojects/domencontrol:/foo swaggerapi/swagger-ui

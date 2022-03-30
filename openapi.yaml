@@ -1,40 +1,35 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 info:
-  title: "GroupPolicyConstructor API"
-  version: "0.1"
+  title: 'GroupPolicyConstructor API'
+  version: '0.1'
   description: 'Test API'
   contact:
-    name: "GroupPolicyConstructor API"
-    url: "http://localhost:8000/"
-    email: "Sluhaivova@gmail.com"
+    name: 'GroupPolicyConstructor API'
+    url: 'http://localhost:8000/'
+    email: 'Sluhaivova@gmail.com'
   license:
-    name: "CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)"
-    url: "https://github.com/VladimirZHC"
-    
+    name: 'CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)'
+    url: 'https://github.com/VladimirZHC'
 servers:
-- url: "http://localhost:8000"
-  description: "API сервер"
-
+  - url: 'http://localhost:8000'
+    description: 'API сервер'
 paths:
   /divisions:
     get:
       tags:
         - Division
-      summary: "Вызов текущего списка подразделений"
-  
-      description: "Получить текущий список подразделений"
-      
-      operationId: "DivisionListData"
-      
+      summary: 'Вызов текущего списка подразделений'
+      description: 'Получить текущий список подразделений'
+      operationId: DivisionListData
       parameters:
-        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/FiltersDivisionName'
+        - $ref: '#/components/parameters/FiltersDivisionGroupPolicy'
         - $ref: '#/components/parameters/Page'
         - $ref: '#/components/parameters/OrderByQueryParam'
         - $ref: '#/components/parameters/SearchQueryParam'
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -46,24 +41,19 @@ paths:
                       $ref: '#/components/schemas/Division'
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-    
   /division:
     post:
       tags:
         - Division
-      summary: "Создание данных подразделения"
-      
-      description: Создает подразделение в базе данных
-
-      operationId: "DivisionData"
-      
+      summary: 'Создание данных подразделения'
+      description: 'Создает подразделение в базе данных'
+      operationId: DivisionData
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -71,15 +61,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Division'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                    
-      
       requestBody:
         required: true
         content:
@@ -98,34 +84,25 @@ paths:
                     group_policies:
                       type: array
                       items:
-                          $ref: '#/components/schemas/GroupPolicy'
-                
-      
- 
+                        $ref: '#/components/schemas/GroupPolicy'
   /division/{id}:
     get:
       tags:
         - Division
-        
-        
-      summary: Получить данные о подразделении по идентификатору
-        
-      description: Получить информацию о конкретном подразделении
-
-      operationId: "DivisionID"
-      
+      summary: 'Получить данные о подразделении по идентификатору'
+      description: 'Получить информацию о конкретном подразделении'
+      operationId: DivisionID
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор подразделения
+          description: 'Идентификатор подразделения'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -133,37 +110,28 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Division'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                
     put:
       tags:
         - Division
-        
-      summary: "Обновление данных подразделения"
-      
-      description: "Обновляет данные подразделения в базу данных"
-      
-      operationId: "DivisionPUT"
-
+      summary: 'Обновление данных подразделения'
+      description: 'Обновляет данные подразделения в базу данных'
+      operationId: DivisionPUT
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор подразделения
+          description: 'Идентификатор подразделения'
           schema:
             type: integer
             example: 1
-            
-            
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -171,14 +139,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Division'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-      
       requestBody:
         required: true
         content:
@@ -198,30 +163,23 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/schemas/GroupPolicy'
-            
-                
     delete:
       tags:
         - Division
-        
-      summary: "Удалить данные подразделения"
-        
-      description: Удалить подразделение по идентификатору
-
-      operationId: "DivisionDelete"
-      
+      summary: 'Удалить данные подразделения'
+      description: 'Удалить подразделение по идентификатору'
+      operationId: DivisionDelete
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -229,29 +187,23 @@ paths:
                 properties:
                   success:
                     type: boolean
-                    description: Признак успеха операции
+                    description: 'Признак успеха операции'
                 required:
                   - success
-        
         '500':
           $ref: '#/components/responses/ErrorResponse'
-      
   /grouppolicies:
     get:
       tags:
         - GroupPolicy
-      summary: "Вызов текущего списка групповых политик"
-  
-      description: "Получить текущий список групповых политик"
-      
-      operationId: "GroupPolicyListData"
-      
+      summary: 'Вызов текущего списка групповых политик'
+      description: 'Получить текущий список групповых политик'
+      operationId: GroupPolicyListData
       parameters:
-        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/FiltersGroupName'
         - $ref: '#/components/parameters/Page'
         - $ref: '#/components/parameters/OrderByQueryParam'
         - $ref: '#/components/parameters/SearchQueryParam'
-      
       responses:
         '200':
           description: OK
@@ -266,20 +218,16 @@ paths:
                       $ref: '#/components/schemas/GroupPolicy'
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
   /grouppolicy:
     post:
       tags:
         - GroupPolicy
-      summary: "Создание групповой политки"
-      
-      description: Создает групповую политику в базе данных
-
-      operationId: "GroupPolicyPost"
-      
+      summary: 'Создание групповой политки'
+      description: 'Создает групповую политику в базе данных'
+      operationId: GroupPolicyPost
       responses:
         '200':
           description: OK
@@ -290,15 +238,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/GroupPolicy'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                    
-      
       requestBody:
         required: true
         content:
@@ -314,29 +258,21 @@ paths:
                       type: string
                     body:
                       type: string
-      
-    
-          
   /grouppolicy/{id}:
     get:
       tags:
         - GroupPolicy
-        
-      summary: Получить данные о групповой политике по идентификатору
-        
-      description: Получить информацию о конкретной политике
-
-      operationId: "GroupPolicyID"
-      
+      summary: 'Получить данные о групповой политике по идентификатору'
+      description: 'Получить информацию о конкретной политике'
+      operationId: GroupPolicyID
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор подразделения
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
           description: OK
@@ -347,38 +283,28 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/GroupPolicy'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                
     put:
       tags:
         - GroupPolicy
-        
-      summary: "Обновление данных групповой политики"
-      
-      description: "Обновляет данные групповой политики в базу данных"
-
-      operationId: "GroupPolicyPut"
-      
-      
+      summary: 'Обновление данных групповой политики'
+      description: 'Обновляет данные групповой политики в базу данных'
+      operationId: GroupPolicyPut
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-            
-            
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -386,14 +312,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/GroupPolicy'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-      
       requestBody:
         required: true
         content:
@@ -409,30 +332,23 @@ paths:
                       type: string
                     body:
                       type: string
-            
-                
     delete:
       tags:
         - GroupPolicy
-        
-      summary: "Удалить данные групповой политики"
-        
-      description: Удалить групповую политику по идентификатору
-
-      operationId: "GroupPolicyDelete"
-      
+      summary: 'Удалить данные групповой политики'
+      description: 'Удалить групповую политику по идентификатору'
+      operationId: GroupPolicyDelete
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -440,29 +356,23 @@ paths:
                 properties:
                   success:
                     type: boolean
-                    description: Признак успеха операции
+                    description: 'Признак успеха операции'
                 required:
                   - success
-        
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                
   /users:
     get:
       tags:
         - DomainUser
-      summary: "Вызов текущего списка пользователей"
-  
-      description: "Получить список пользователей"
-      
-      operationId: "UserListData"
-      
+      summary: 'Вызов текущего списка пользователей'
+      description: 'Получить список пользователей'
+      operationId: UserListData
       parameters:
-        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/FiltersUserName'
+        - $ref: '#/components/parameters/FiltersUserDivision'
         - $ref: '#/components/parameters/Page'
-        - $ref: '#/components/parameters/OrderByQueryParam'
         - $ref: '#/components/parameters/SearchQueryParam'
-      
       responses:
         '200':
           description: OK
@@ -477,24 +387,19 @@ paths:
                       $ref: '#/components/schemas/DomainUser'
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
   /user:
     post:
       tags:
         - DomainUser
-        
-      summary: "Создание пользователя"
-      
-      description: Создать пользователя 
-
-      operationId: "UserPost"
-      
+      summary: 'Создание пользователя'
+      description: 'Создать пользователя'
+      operationId: UserPost
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -502,15 +407,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/DomainUser'
-                
                   success:
                     type: boolean
                     description: Признак успеха операции
-                    
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                    
-      
       requestBody:
         required: true
         content:
@@ -524,33 +425,27 @@ paths:
                   properties:
                     name:
                       type: string
-                      example: "Владимир"
+                      example: Владимир
                     division:
                       $ref: '#/components/schemas/Division'
-
-  /users/{id}:
+  '/users/{id}':
     get:
       tags:
         - DomainUser
-        
-      summary: Получить данные о пользователе по идентификатору
-        
-      description: Получить информацию о конкретном пользователе
-
-      operationId: "UserID"
-      
+      summary: 'Получить данные о пользователе по идентификатору'
+      description: 'Получить информацию о конкретном пользователе'
+      operationId: UserID
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор пользователя
+          description: 'Идентификатор пользователя'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -558,35 +453,25 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/DomainUser'
-                
                   success:
                     type: boolean
                     description: Признак успеха операции
-                    
         '500':
           $ref: '#/components/responses/ErrorResponse'
-  
     put:
       tags:
         - DomainUser
-        
-      summary: "Обновление данных пользователя"
-      
-      description: "Обновляет данные пользователя в базу данных"
-
-      operationId: "UserPut"
-      
-      
+      summary: 'Обновление данных пользователя'
+      description: 'Обновляет данные пользователя в базу данных'
+      operationId: UserPut
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор пользоваеля
+          description: 'Идентификатор пользоваеля'
           schema:
             type: integer
             example: 1
-            
-            
       responses:
         '200':
           description: OK
@@ -597,14 +482,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/DomainUser'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-      
       requestBody:
         required: true
         content:
@@ -620,26 +502,20 @@ paths:
                       type: string
                     division:
                       $ref: '#/components/schemas/Division'
-    
     delete:
       tags:
         - DomainUser
-        
-      summary: "Удалить данные пользователя"
-        
-      description: Удалить пользователя по идентификатору
-
-      operationId: "UserDelete"
-      
+      summary: 'Удалить данные пользователя'
+      description: 'Удалить пользователя по идентификатору'
+      operationId: UserDelete
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
           description: OK
@@ -650,33 +526,26 @@ paths:
                 properties:
                   success:
                     type: boolean
-                    description: Признак успеха операции
+                    description: 'Признак успеха операции'
                 required:
                   - success
-        
         '500':
           $ref: '#/components/responses/ErrorResponse'
-
-  /users/{id}/policy:
+  '/users/{id}/policy':
     get:
       tags:
         - DomainUser
-        
-      summary: "Получить результатирующую политику для пользователя"
-        
-      description: Получить результатирую политику
-
-      operationId: "DomainUserID"
-      
+      summary: 'Получить результатирующую политику для пользователя'
+      description: 'Получить результатирую политику'
+      operationId: DomainUserID
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор пользователя 
+          description: 'Идентификатор пользователя'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
           description: Success
@@ -684,26 +553,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultPolicy'
-                
         '500':
           $ref: '#/components/responses/ErrorResponse'
-  
   /computers:
     get:
       tags:
         - Computer
-      summary: "Вызов текущего списка компьютеров"
-  
-      description: "Получить список компьютеров"
-      
-      operationId: "GroupPolicyList"
-      
+      summary: 'Вызов текущего списка компьютеров'
+      description: 'Получить список компьютеров'
+      operationId: GroupPolicyList
       parameters:
-        - $ref: '#/components/parameters/FiltersQueryParam'
+        - $ref: '#/components/parameters/FiltersComputerName'
+        - $ref: '#/components/parameters/FiltersComputerDivision'
         - $ref: '#/components/parameters/Page'
-        - $ref: '#/components/parameters/OrderByQueryParam'
         - $ref: '#/components/parameters/SearchQueryParam'
-      
       responses:
         '200':
           description: OK
@@ -718,21 +581,15 @@ paths:
                       $ref: '#/components/schemas/Computer'
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-  /computer:
     post:
       tags:
         - Computer
-        
-      summary: "Создание компьютера"
-      
-      description: Создать компьютер
-      
-      operationId: "ComputerPost"
-      
+      summary: 'Создание компьютера'
+      description: 'Создать компьютер'
+      operationId: ComputerPost
       requestBody:
         required: true
         content:
@@ -749,7 +606,6 @@ paths:
                       example: 'PC1'
                     division:
                       $ref: '#/components/schemas/Division'
-      
       responses:
         '200':
           description: OK
@@ -760,36 +616,26 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Computer'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-    
-          
-          
-  /computers/{id}:
+  '/computers/{id}':
     get:
       tags:
         - Computer
-        
-      summary: Получить данные о компьютере по идентификатору
-        
-      description: Получить информацию о конкретном компьюетере
-
-      operationId: "ComputerID"
-      
+      summary: 'Получить данные о компьютере по идентификатору'
+      description: 'Получить информацию о конкретном компьюетере'
+      operationId: ComputerID
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор компьютера
+          description: 'Идентификатор компьютера'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
           description: OK
@@ -800,35 +646,25 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Computer'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-                
-                
     put:
       tags:
         - Computer
-        
-      summary: "Обновление данных компьютера"
-      
-      description: "Обновляет данные компьютера в базу данных"
-      
-      operationId: "ComputerPut"
-      
+      summary: 'Обновление данных компьютера'
+      description: 'Обновляет данные компьютера в базу данных'
+      operationId: ComputerPut
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-            
-            
       responses:
         '200':
           description: OK
@@ -839,14 +675,11 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Computer'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-      
       requestBody:
         required: true
         content:
@@ -862,30 +695,23 @@ paths:
                       type: string
                     body:
                       type: string
-                
-                
     delete:
       tags:
         - Computer
-        
-      summary: "Удалить данные компьютера"
-        
-      description: Удалить компьютер по идентификатору
-
-      operationId: "ComputerDelete"
-      
+      summary: 'Удалить данные компьютера'
+      description: 'Удалить компьютер по идентификатору'
+      operationId: ComputerDelete
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -893,33 +719,26 @@ paths:
                 properties:
                   success:
                     type: boolean
-                    description: Признак успеха операции
+                    description: 'Признак успеха операции'
                 required:
                   - success
-        
         '500':
           $ref: '#/components/responses/ErrorResponse'
-
-  /computers/{id}/policy:
+  '/computers/{id}/policy':
     get:
       tags:
         - Computer
-        
-      summary: "Получить результатирующую политику для компьютера"
-        
-      description: Получить результатирую политику
-
-      operationId: "GroupPolicyIDResult"
-      
+      summary: 'Получить результатирующую политику для компьютера'
+      description: 'Получить результатирую политику'
+      operationId: GroupPolicyIDResult
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор компьютера 
+          description: 'Идентификатор компьютера'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
           description: Success
@@ -927,26 +746,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultPolicy'
-                
         '500':
           $ref: '#/components/responses/ErrorResponse'
-  
   /schemas:
     get:
       tags:
         - SchemaParam
-      summary: "Вызов текущего списка параметров"
-  
-      description: "Получить список параметров"
-      
-      operationId: "SchemaParamsListData"
-      
+      summary: 'Вызов текущего списка параметров'
+      description: 'Получить список параметров'
+      operationId: SchemaParamsListData
       parameters:
-        - $ref: '#/components/parameters/FiltersQueryParam'
-      
+        - $ref: '#/components/parameters/FiltersSchemaType'
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -958,33 +771,27 @@ paths:
                       $ref: '#/components/schemas/SchemaParam'
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
-  /schema/{id}:
+  '/schema/{id}':
     get:
       tags:
         - SchemaParam
-        
-      summary: Получить данные о схеме параметров по идентификатору
-
-      operationId: "Schema"
-        
-      description: Получить информацию о конкретной схеме параметров
-      
+      summary: 'Получить данные о схеме параметров по идентификатору'
+      operationId: Schema
+      description: 'Получить информацию о конкретной схеме параметров'
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-      
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -992,34 +799,25 @@ paths:
                 properties:
                   items:
                     $ref: '#/components/schemas/SchemaParam'
-                
                   success:
                     type: boolean
                     description: Признак успеха операции
-                    
         '500':
           $ref: '#/components/responses/ErrorResponse'
-    
     put:
       tags:
         - SchemaParam
-        
-      summary: "Обновление данных схемы параметров"
-      
-      description: "Обновляет данные схемы параметров в базу данных"
-      
-      operationId: "SchemaPut"
-      
+      summary: 'Обновление данных схемы параметров'
+      description: 'Обновляет данные схемы параметров в базу данных'
+      operationId: SchemaPut
       parameters:
         - in: path
           name: id
           required: true
-          description: Идентификатор
+          description: 'Идентификатор'
           schema:
             type: integer
             example: 1
-            
-            
       requestBody:
         required: true
         content:
@@ -1033,10 +831,9 @@ paths:
                   properties:
                     body:
                       type: string
-            
       responses:
         '200':
-          description: OK
+          description: 'OK'
           content:
             application/json:
               schema:
@@ -1044,105 +841,106 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/SchemaParam'
-                
                   success:
                     type: boolean
-                    description: Признак успеха операции
-                    
+                    description: 'Признак успеха операции'
         '500':
           $ref: '#/components/responses/ErrorResponse'
           
           
-
-
+tags:
+  - name: Division
+    description: 'Получить данные о подразделении'
+  - name: GroupPolicy
+    description: 'Получить данные о групповой политики'
+  - name: DomainUser
+    description: 'Получить данные о пользователе'
+  - name: Computer
+    description: 'Получить данные о компьютере'
+  - name: SchemaParam
+    description: 'Получить данные о схеме параметров'
+  
+  
 components:
   schemas:
     Division:
-      description: Модель, в которой хранится информация о подразделении
+      description: 'Модель, в которой хранится информация о подразделении'
       type: object
       required:
         - id
         - name
-      
       properties:
         id:
           type: integer
           example: 1
-                    
         name:
           type: string
-          example: "Отдел контроля"
-        
+          example: 'Отдел контроля'
         parent:
           $ref: '#/components/schemas/DivisionParent'
-                    
         group_policies:
           type: array
           items:
-           $ref: '#/components/schemas/GroupPolicy'
-          
+            $ref: '#/components/schemas/GroupPolicy'
+      x-examples:
+        example-1:
+          id: 1
+          name: 'Отдел контроля'
+          parent:
+            name: 'Отдел контроля'
+          group_policies:
+            - id: 1
+              name: Политичная
+              body: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
     GroupPolicy:
-      description: Модель, в которой хранится информация о групповой политики
+      description: 'Модель, в которой хранится информация о групповой политики'
       type: object
       required:
         - id
         - name
         - body
-        
       properties:
         id:
           type: integer
           example: 1
-          
         name:
           type: string
-          example: "Политичная"
-          
+          example: 'Политичная'
         body:
           type: string
-          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
-         
+          example: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
     DomainUser:
-      description: Модель, в которой хранится информация о пользователе
+      description: 'Модель, в которой хранится информация о пользователе'
       type: object
       required:
         - id
         - name
-        
       properties:
         id:
           type: integer
           example: 1
-        
         name:
           type: string
-          example: "Владимир"
-          
+          example: 'Владимир'
         division:
           $ref: '#/components/schemas/Division'
-          
-    
     Computer:
-      description: Модель, в которой хранится информация о компьютере
+      description: 'Модель, в которой хранится информация о компьютере'
       type: object
       required:
         - id
         - name
-      
       properties:
         id:
           type: integer
           example: 1
-        
         name:
           type: string
-          example: "PC1"
-          
+          example: PC1
         division:
           $ref: '#/components/schemas/Division'
-          
     SchemaParam:
-      description: Модель, в которой хранится информация о схемах параметров
+      description: 'Модель, в которой хранится информация о схемах параметров'
       type: object
       required:
         - type
@@ -1150,33 +948,31 @@ components:
       properties:
         type:
           type: string
-          example: 'USER'
+          example: USER
         body:
           type: string
-          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
+          example: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
     ResultPolicy:
-      description: Модель, в которой хранится информация о результатирующих политииках
+      description: 'Модель, в которой хранится информация о результатирующих политииках'
       type: object
       required:
         - body
       properties:
         body:
           type: string
-          example: "{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}"
-          
+          example: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
     DivisionParent:
-      description: Model containing info about parent
+      description: 'Модель, котороая содержит информацию о родителе подразделения'
       type: object
       required:
         - name
       properties:
         name:
           type: string
-          example: "Отдел контроля"
-  
+          example: 'Отдел контроля'
   responses:
     ErrorResponse:
-      description: Стандартное сообщение об ошибке
+      description: 'Стандартное сообщение об ошибке'
       content:
         application/json:
           schema:
@@ -1184,10 +980,10 @@ components:
             properties:
               error:
                 type: string
-                description: Сообщение об ошибке
+                description: 'Сообщение об ошибке'
               success:
                 type: boolean
-                description: Результат выполнения операции
+                description: 'Результат выполнения операции'
             required:
               - error
               - success
@@ -1196,26 +992,87 @@ components:
               value:
                 error: string
                 success: false
-                
   parameters:
-    FiltersQueryParam:
-      name: filters
+    FiltersDivisionName:
+      name: name
       in: query
       required: false
       schema:
         type: string
-      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?group_policy=5 вернет список подразделений с одинаковой групповой политикой, http://127.0.0.1:8000/divisions/?name=Отдел+безопасности вернет список подразделений с названием <Отдел безопасности> '
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?name=Отдел+безопасности вернет список подразделений с названием <Отдел безопасности>'
+      
+    FiltersDivisionGroupPolicy:
+      name: group_policies
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?group_policy=5 вернет список подразделений с одинаковой групповой политикой'
+      
+    FiltersGroupName:
+      name: name
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/grouppolicies/?name=Политичная вернёт запись с запрашиваемым именем групповой политии' 
+    
+    FiltersUserName:
+      name: name
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/users/?name=Владимир вернёт пользователя или список пользователей с запршиваемым именем пользователя'
+    
+    
+    FiltersUserDivision:
+      name: division
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/users/?divison=2 вернёт пользователя или список пользователей с запршиваемым именем подразделения'
+      
+      
+    FiltersComputerName:
+      name: name
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/computers/?name=PC1 вернёт компьютер или список компьютеров с запршиваемым именем компьюетра'
+      
+
+    
+    
+    FiltersComputerDivision:
+      name: division
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/computers/?division=2 вернёт компьютер или список компьютеров с запршиваемым именем подразделения'
+      
+      
+      
+    FiltersSchemaType:
+      name: Type
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Правила фильтрации, применяемые к массиву записей, пример: http://127.0.0.1:8000/schemas/?type=USER вернёт пользовательскую схему параметров'
+      
       
       
     OrderByQueryParam:
-      name: orderby
+      name: ordering
       in: query
       required: false
       schema:
         type: string
       description: 'Правила сортировки для возвращаемого массива данных, пример: http://127.0.0.1:8000/divisions/?ordering=-departament/departament вернет отсортированный массив по подразделению в обычном или обратном порядке'
-                
-            
     Page:
       name: page
       in: query
@@ -1223,8 +1080,6 @@ components:
       schema:
         type: integer
       description: 'Реализация пагинации, пример: http://127.0.0.1:8000/divisions/?page=2 отобразит вторую страницу'
-      
-      
     SearchQueryParam:
       name: search
       in: query
@@ -1232,6 +1087,3 @@ components:
       schema:
         type: string
       description: 'Правила поиска, применяемые к массиву записей, пример: http://127.0.0.1:8000/divisions/?search=Отдел + продаж  Найдёт запись с апрашиваемым именем подразделения'
-          
-          
-          
