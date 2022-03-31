@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-)*ht32&!ydi5#%nbl2&zs1+!62_!0jazbzq(3!ww$)3s8-^$l#
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition

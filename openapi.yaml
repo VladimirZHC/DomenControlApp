@@ -80,7 +80,7 @@ paths:
                     name:
                       type: string
                     parent:
-                      $ref: '#/components/schemas/DivisionParent'
+                      $ref: '#/components/schemas/Division'
                     group_policies:
                       type: array
                       items:
@@ -158,7 +158,7 @@ paths:
                     name:
                       type: string
                     parent:
-                      $ref: '#/components/schemas/DivisionParent'
+                      $ref: '#/components/schemas/Division'
                     group_policies:
                       type: array
                       items:
@@ -877,7 +877,7 @@ components:
           type: string
           example: 'Отдел контроля'
         parent:
-          $ref: '#/components/schemas/DivisionParent'
+          $ref: '#/components/schemas/Division'
         group_policies:
           type: array
           items:
@@ -953,23 +953,10 @@ components:
           type: string
           example: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
     ResultPolicy:
-      description: 'Модель, в которой хранится информация о результатирующих политииках'
-      type: object
-      required:
-        - body
-      properties:
-        body:
-          type: string
-          example: '{Безопасность: {kiosk: {autostart: [{app: firefox, timeout: 100}, {app: terminal, timeout: 0}], settings: {settings1: aaa, settings2: bbb}}}'
-    DivisionParent:
-      description: 'Модель, котороая содержит информацию о родителе подразделения'
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: 'Отдел контроля'
+      description: 'Схема представления информации о результирующих политииках'
+      type: array
+      items:
+        $ref: '#/components/schemas/GroupPolicy'
   responses:
     ErrorResponse:
       description: 'Стандартное сообщение об ошибке'

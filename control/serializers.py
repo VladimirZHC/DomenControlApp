@@ -26,7 +26,7 @@ class GroupPolicySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = GroupPolicy
-        fields = ('name', 'body',)
+        fields = ('id', 'name', 'body',)
         
         
 class DivisionSerializer(serializers.ModelSerializer):
@@ -34,7 +34,7 @@ class DivisionSerializer(serializers.ModelSerializer):
     group_policy = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
     class Meta:
         model = Division
-        fields = ('name', 'departament', 'group_policy',)
+        fields = ('id', 'name', 'departament', 'group_policy',)
         
         
 
@@ -42,13 +42,13 @@ class DomenUserSerializer(serializers.ModelSerializer):
     division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
     class Meta:
         model = DomenUser
-        fields = ('name', 'division',)
+        fields = ('id','name', 'division',)
         
 class ComputerSerializer(serializers.ModelSerializer):
     division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
     class Meta:
         model = Computers
-        fields = ('name', 'division',)
+        fields = ('id','name', 'division',)
         
         
         
