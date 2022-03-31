@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-
+from django.views.generic import TemplateView
 
 router = DefaultRouter()
 router.register(r'divisions', views.DivisionViewSet)
@@ -11,10 +11,8 @@ router.register(r'computers', views.ComputersViewSet)
 router.register(r'schemas', views.SchemaParamsViewSet)
 
 
-
 urlpatterns = [
     path('', include(router.urls)),
-    path('test/', views.ApiView.as_view()),
 ]
 
 
