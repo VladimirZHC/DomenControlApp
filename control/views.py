@@ -1,17 +1,16 @@
 from rest_framework import viewsets
-from django.shortcuts import render
-from .models import Division, GroupPolicy, DomenUser, Computers, SchemaParams
-from .serializers import DivisionSerializer, DomenUserSerializer, ComputerSerializer, GroupPolicySerializer, SchemaParamsSerializer
+from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
+from .serializers import GroupPolicySerializer, DomainUserSerializer, OrgUnitSerializer, ParamsSchemaSerializer, HostSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 
 
-class DivisionViewSet(viewsets.ModelViewSet):
-    queryset = Division.objects.all()
-    serializer_class = DivisionSerializer
+class OrgUnitViewSet(viewsets.ModelViewSet):
+    queryset = OrgUnit.objects.all()
+    serializer_class = OrgUnitSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
-    filterset_fields = ['name', 'group_policy']
+    filterset_fields = ['name', 'group_policies']
     search_fields = ['name' ]
     
 
@@ -24,24 +23,24 @@ class GroupPolicyViewSet(viewsets.ModelViewSet):
     search_fields = ['name', ]
 
 
-class DomenUserViewSet(viewsets.ModelViewSet):
-    queryset = DomenUser.objects.all()
-    serializer_class = DomenUserSerializer
+class DomainUserViewSet(viewsets.ModelViewSet):
+    queryset = DomainUser.objects.all()
+    serializer_class = DomainUserSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
-    filterset_fields = ['name', 'division']
+    filterset_fields = ['name', 'orgunit']
     search_fields = ['name', ]
     
 
-class ComputersViewSet(viewsets.ModelViewSet):
-    queryset = Computers.objects.all()
-    serializer_class = ComputerSerializer
+class HostViewSet(viewsets.ModelViewSet):
+    queryset = Host.objects.all()
+    serializer_class = HostSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
-    filterset_fields = ['name', 'division']
+    filterset_fields = ['name', 'orgunit']
     search_fields = ['name', ]
     
 
-class SchemaParamsViewSet(viewsets.ModelViewSet):
-    queryset = SchemaParams.objects.all()
-    serializer_class = SchemaParamsSerializer
+class ParamsSchemaViewSet(viewsets.ModelViewSet):
+    queryset = ParamsSchema.objects.all()
+    serializer_class = ParamsSchemaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['type',]

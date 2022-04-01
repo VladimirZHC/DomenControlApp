@@ -1,7 +1,5 @@
-from __future__ import division
-from asyncore import read
 from rest_framework import serializers
-from .models import Division, GroupPolicy, DomenUser, Computers, SchemaParams
+from .models import DomainUser, GroupPolicy, Host, OrgUnit, ParamsSchema
 import json
 
 
@@ -29,33 +27,33 @@ class GroupPolicySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'body',)
         
         
-class DivisionSerializer(serializers.ModelSerializer):
-    departament = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Division.objects.all())
-    group_policy = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
+class OrgUnitSerializer(serializers.ModelSerializer):
+    parent = serializers.SlugRelatedField(many=True, slug_field='name', queryset=OrgUnit.objects.all())
+    group_policies = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
     class Meta:
-        model = Division
-        fields = ('id', 'name', 'departament', 'group_policy',)
+        model = OrgUnit
+        fields = ('id', 'name', 'parent', 'group_policies',)
         
         
 
-class DomenUserSerializer(serializers.ModelSerializer):
-    division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
+class DomainUserSerializer(serializers.ModelSerializer):
+    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all())
     class Meta:
-        model = DomenUser
-        fields = ('id','name', 'division',)
+        model = DomainUser
+        fields = ('id','name', 'orgunit',)
         
-class ComputerSerializer(serializers.ModelSerializer):
-    division = serializers.SlugRelatedField(slug_field='name',  queryset=Division.objects.all())
+class HostSerializer(serializers.ModelSerializer):
+    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all())
     class Meta:
-        model = Computers
-        fields = ('id','name', 'division',)
+        model = Host
+        fields = ('id','name', 'orgunit',)
         
         
         
         
-class SchemaParamsSerializer(serializers.ModelSerializer):
+class ParamsSchemaSerializer(serializers.ModelSerializer):
     body = BodyField()
     
     class Meta:
-        model = SchemaParams
+        model = ParamsSchema
         fields = ('type', 'body', )

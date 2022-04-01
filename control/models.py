@@ -1,8 +1,7 @@
 from django.db import models
 
 
-
-class SchemaParams(models.Model):
+class ParamsSchema(models.Model):
     TYPE_CHOICES = (
         ("HOST", "host"),
         ("USER", "user"),
@@ -12,7 +11,7 @@ class SchemaParams(models.Model):
     
     def __str__(self):
         return f'Тип: {self.type}'
-    
+
     class Meta:
         verbose_name = 'Тип'
         verbose_name_plural = 'Типы'
@@ -22,56 +21,48 @@ class GroupPolicy(models.Model):
     name = models.CharField('Групповая политика', max_length=30, unique=True)
     body = models.TextField('Содержимое политики', null=True, blank=True)
     search_fields = ['name']
-    
-    
+
     def __str__(self):
         return f'Групповая политика: {self.name}'
-    
+
     class Meta:
         ordering = ['name']
         verbose_name = 'Групповую политиику'
         verbose_name_plural = 'Групповые политики'
-        
-        
-        
-        
-class Division(models.Model):
+
+
+class OrgUnit(models.Model):
     name = models.CharField('Подразделение', max_length=20)
-    divisions = models.ForeignKey(
+    parent = models.ForeignKey(
         'self', 
         on_delete=models.CASCADE,
-        related_name='departament',
-        verbose_name='Подразделения',
+        related_name='children',
+        verbose_name='Подразделение',
         blank=True,
         null=True,
         )
-    group_policy = models.ManyToManyField(
+    group_policies = models.ManyToManyField(
         GroupPolicy,
-        related_name='policy',
         blank=True,
+        related_name='orgunits',
         verbose_name='групповые политики',
     )
-    
-    
+
     def __str__(self):
         return f'Подразделение: {self.name}'
-    
+
     class Meta:
         verbose_name = 'Подразделение'
         verbose_name_plural = 'Подразделения'
 
 
-
-
-
-
-class DomenUser(models.Model):
+class DomainUser(models.Model):
     name = models.CharField('Имя пользователя', max_length=20)
-    division = models.ForeignKey(
-        Division,
-        related_name='userdevision', 
+    orgunit = models.ForeignKey(
+        OrgUnit,
+        related_name='users', 
         on_delete=models.CASCADE,
-        verbose_name='Подразделения',
+        verbose_name='Подразделение',
         blank=True,
         null=True,
     )
@@ -82,30 +73,27 @@ class DomenUser(models.Model):
     class Meta:
         verbose_name = 'Пользователя'
         verbose_name_plural = 'Пользователи'
-        
-        
-        
-        
-class Computers(models.Model):
+
+
+class Host(models.Model):
     name = models.CharField('Компьютеры', max_length=20)
-    division = models.ForeignKey(
-        Division,
-        related_name='computerdivision', 
+    orgunit = models.ForeignKey(
+        OrgUnit,
+        related_name='hosts', 
         on_delete=models.CASCADE,
-        verbose_name='Подразделения',
+        verbose_name='Подразделение',
         blank=True,
         null=True,
     )
-    
+
     def __str__(self):
         return f'Компьютер {self.name}'
-    
+
     class Meta:
         verbose_name = 'Компьютер'
         verbose_name_plural = 'Компьютеры'
-        
-        
 
-SchemaParams.objects.get_or_create(type="USER")
-SchemaParams.objects.get_or_create(type="HOST")
-Division.objects.get_or_create(name="root")
+
+# ParamsSchema.objects.get_or_create(type="USER")
+# ParamsSchema.objects.get_or_create(type="HOST")
+# OrgUnit.objects.get_or_create(name="root")
