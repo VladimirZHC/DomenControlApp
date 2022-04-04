@@ -74,7 +74,7 @@ schema_post_detail = views.ParamsSchemaViewSet.as_view({
 
 
 router = DefaultRouter()
-router.register(r'orgunits', views.OrgUnitViewSet)
+router.register(r'orgunits', views.OrgUnitViewSet, basename='orgunit')
 router.register(r'grouppolicies', views.GroupPolicyViewSet)
 router.register(r'users', views.DomainUserViewSet)
 router.register(r'hosts', views.HostViewSet)
@@ -85,16 +85,16 @@ urlpatterns = [
     path('', include(router.urls)),
     path('orgunits/', orgunits_list, name='orgunits-list'),
     path('orgunit/', orgunit_post_detail, name='orgunit-post-detail'),
-    path('orgunit/<int:pk>', orgunit_detail, name='orgunit-detail'),
+    path('orgunit/<int:pk>/', orgunit_detail, name='orgunit-detail'),
     path('grouppolicies/', group_policies_list, name='group-policies-list'),
     path('grouppolicy/', group_policy_post_detail, name='group-policy-post-detail'),
-    path('grouppolicy/<int:pk>', group_ploicy_detail, name='group-policy-detail'),
+    path('grouppolicy/<int:pk>/', group_ploicy_detail, name='group-policy-detail'),
     path('users/', users_list, name='users-list'),
     path('user/', user_post_detail, name='user-post-detail'),
-    path('user/<int:pk>', user_detail, name='user-detail'),
+    path('user/<int:pk>/', user_detail, name='user-detail'),
     path('hosts/', hosts_list, name='hosts-list'),
     path('host/', host_post_detail, name='host-post-detail'),
-    path('host/<int:pk>', host_detail, name='host-detail'),
+    path('host/<int:pk>/', host_detail, name='host-detail'),
     path('schemas/', schemas_list, name='schemas-list'),
     path('schema/<int:pk>', schema_post_detail, name='computer-detail'),
 ]

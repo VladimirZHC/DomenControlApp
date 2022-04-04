@@ -16,8 +16,9 @@ class BodyField(serializers.JSONField):
         except (TypeError, ValueError):
             self.fail('invalid_json')
         return data
+    
 
-
+     
 class GroupPolicySerializer(serializers.ModelSerializer):
    
     body = BodyField()
@@ -28,7 +29,7 @@ class GroupPolicySerializer(serializers.ModelSerializer):
         
         
 class OrgUnitSerializer(serializers.ModelSerializer):
-    parent = serializers.SlugRelatedField(many=True, slug_field='name', queryset=OrgUnit.objects.all())
+    parent = serializers.SlugRelatedField(slug_field='name', queryset=OrgUnit.objects.all())
     group_policies = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
     class Meta:
         model = OrgUnit
