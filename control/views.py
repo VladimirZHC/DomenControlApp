@@ -29,8 +29,32 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+
+    def create(self, request, *args, **kwargs):
+        data =  super().create(request, *args, **kwargs)
     
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
     
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def destroy(self, request, *args, **kwargs):
+        data =  super().destroy(request, *args, **kwargs)
+        body = {
+            'data': "string",
+            'success': True
+        }
+        return Response(data=body, status=200)
 
     
 class GroupPolicyViewSet(viewsets.ModelViewSet):
