@@ -1,11 +1,12 @@
+import imp
 from rest_framework import viewsets
 from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import GroupPolicySerializer, DomainUserSerializer, OrgUnitSerializer, ParamsSchemaSerializer, HostSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.response import Response
-import json
 from rest_framework.pagination import PageNumberPagination
+
 
 class OrgUnitViewSet(viewsets.ModelViewSet):
     serializer_class = OrgUnitSerializer
@@ -29,6 +30,7 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+        
 
     def create(self, request, *args, **kwargs):
         data =  super().create(request, *args, **kwargs)
@@ -93,3 +95,14 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
 
     def get_paginated_response(self, data):
         return Response(data)
+    
+
+class SimpleMiddleWare:
+    def __init__(self, message="500 {'error': 'Internal Server Error', 'success': false}"):
+        self.message = message
+        super().__init__(self.message)
+        
+    def __call__(self, request):
+        response = self.message(request)
+        
+        return response
