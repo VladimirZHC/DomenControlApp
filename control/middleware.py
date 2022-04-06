@@ -1,4 +1,3 @@
-from coreapi import Object
 from rest_framework.exceptions import  status
 from django.http import  JsonResponse
 from rest_framework.response import Response

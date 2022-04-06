@@ -64,6 +64,48 @@ class GroupPolicyViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend, ]
     filterset_fields = ['name',]
     search_fields = ['name', ]
+    
+    def list(self, request, *args, **kwargs):
+        data = super().list(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    def retrieve(self, request, *args, **kwargs):
+        data = super().retrieve(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+        
+
+    def create(self, request, *args, **kwargs):
+        data =  super().create(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def destroy(self, request, *args, **kwargs):
+        data =  super().destroy(request, *args, **kwargs)
+        body = {
+            'data': "string",
+            'success': True
+        }
+        return Response(data=body, status=200)
 
 
 class DomainUserViewSet(viewsets.ModelViewSet):
@@ -73,6 +115,48 @@ class DomainUserViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name', 'orgunit']
     search_fields = ['name', ]
     
+    def list(self, request, *args, **kwargs):
+        data = super().list(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    def retrieve(self, request, *args, **kwargs):
+        data = super().retrieve(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+        
+
+    def create(self, request, *args, **kwargs):
+        data =  super().create(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def destroy(self, request, *args, **kwargs):
+        data =  super().destroy(request, *args, **kwargs)
+        body = {
+            'data': "string",
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
 
 class HostViewSet(viewsets.ModelViewSet):
     queryset = Host.objects.all()
@@ -81,12 +165,77 @@ class HostViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name', 'orgunit']
     search_fields = ['name', ]
     
+    def list(self, request, *args, **kwargs):
+        data = super().list(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    def retrieve(self, request, *args, **kwargs):
+        data = super().retrieve(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+        
+
+    def create(self, request, *args, **kwargs):
+        data =  super().create(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def destroy(self, request, *args, **kwargs):
+        data =  super().destroy(request, *args, **kwargs)
+        body = {
+            'data': "string",
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
 
 class ParamsSchemaViewSet(viewsets.ModelViewSet):
     queryset = ParamsSchema.objects.all()
     serializer_class = ParamsSchemaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['type',]
+    def list(self, request, *args, **kwargs):
+        data = super().list(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    def retrieve(self, request, *args, **kwargs):
+        data = super().retrieve(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+    
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
     
     
 
