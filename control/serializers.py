@@ -5,7 +5,6 @@ import json
 
 class BodyField(serializers.JSONField):
     
-    
     def to_representation(self, value):
         return json.loads(value)
         
@@ -14,18 +13,20 @@ class BodyField(serializers.JSONField):
         try:
             json.loads(data)
         except (TypeError, ValueError):
-            self.fail('invalid_json')
+            self.fail('invalid')
         return data
     
 
      
 class GroupPolicySerializer(serializers.ModelSerializer):
    
-    body = BodyField()
+    body = BodyField(required=False)
     
     class Meta:
         model = GroupPolicy
         fields = ('id', 'name', 'body',)
+        
+
         
         
 class OrgUnitSerializer(serializers.ModelSerializer):
@@ -45,13 +46,25 @@ class OrgUnitCreatedUpdateSerializer(serializers.ModelSerializer):
         
 
 class DomainUserSerializer(serializers.ModelSerializer):
-    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all())
+    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
+    class Meta:
+        model = DomainUser
+        fields = ('id','name', 'orgunit',)
+        
+class DomainUserCreateUpdateSerializer(serializers.ModelSerializer):
+    orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
     class Meta:
         model = DomainUser
         fields = ('id','name', 'orgunit',)
         
 class HostSerializer(serializers.ModelSerializer):
-    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all())
+    orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
+    class Meta:
+        model = Host
+        fields = ('id','name', 'orgunit',)
+        
+class HostCreateUpdateSerializer(serializers.ModelSerializer):
+    orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
     class Meta:
         model = Host
         fields = ('id','name', 'orgunit',)
@@ -60,7 +73,7 @@ class HostSerializer(serializers.ModelSerializer):
         
         
 class ParamsSchemaSerializer(serializers.ModelSerializer):
-    body = BodyField()
+    body = BodyField(required=False)
     
     class Meta:
         model = ParamsSchema
