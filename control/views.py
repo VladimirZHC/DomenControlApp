@@ -1,11 +1,18 @@
-from decimal import DivisionByZero
 from rest_framework import viewsets
 from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
-from .serializers import GroupPolicySerializer, DomainUserSerializer, OrgUnitSerializer, ParamsSchemaSerializer, HostSerializer
+from .serializers import (
+    GroupPolicySerializer, 
+    DomainUserSerializer, 
+    OrgUnitSerializer, 
+    ParamsSchemaSerializer, 
+    HostSerializer,
+    OrgUnitCreatedUpdateSerializer,
+                        )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+
 
 
 class OrgUnitViewSet(viewsets.ModelViewSet):
@@ -15,6 +22,13 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
     filterset_fields = ['name', 'group_policies']
     search_fields = ['name' ]
     
+    # def get_serializer(self, request, *args, **kwargs):
+    #     if request.method == 'POST' or request.method == 'PUT':
+    #         return OrgUnitCreatedUpdateSerializer
+    #     return OrgUnitSerializer
+            
+        
+    
     def list(self, request, *args, **kwargs):
         data = super().list(request, *args, **kwargs)
         body = {
@@ -22,6 +36,7 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+    
     def retrieve(self, request, *args, **kwargs):
         data = super().retrieve(request, *args, **kwargs)
         body = {
@@ -32,22 +47,19 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
         
 
     def create(self, request, *args, **kwargs):
-        data =  super().create(request, *args, **kwargs)
-    
-        body = {
-            'data': data.data,
-            'success': True
-        }
-        return Response(data=body, status=200)
+        serializer = OrgUnitCreatedUpdateSerializer(request, data=request.data.get('data'))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return self.retrieve(serializer.data.get('id'))
+        
     
     def update(self, request, *args, **kwargs):
-        data =  super().update(request, *args, **kwargs)
-    
-        body = {
-            'data': data.data,
-            'success': True
-        }
-        return Response(data=body, status=200)
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        serializer = OrgUnitCreatedUpdateSerializer(instance, request, data=request.data.get('data'), partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return self.retrieve(serializer.data.get('id'))
     
     def destroy(self, request, *args, **kwargs):
         data =  super().destroy(request, *args, **kwargs)

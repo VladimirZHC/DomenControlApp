@@ -29,8 +29,15 @@ class GroupPolicySerializer(serializers.ModelSerializer):
         
         
 class OrgUnitSerializer(serializers.ModelSerializer):
-    parent = serializers.SlugRelatedField(slug_field='name', queryset=OrgUnit.objects.all())
-    group_policies = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all())
+    parent = serializers.SlugRelatedField(slug_field='name', queryset=OrgUnit.objects.all(), required=False)
+    group_policies = serializers.SlugRelatedField(many=True, slug_field='name', queryset=GroupPolicy.objects.all(), required=False)
+    class Meta:
+        model = OrgUnit
+        fields = ('id', 'name', 'parent', 'group_policies',)
+        
+class OrgUnitCreatedUpdateSerializer(serializers.ModelSerializer):
+    parent = serializers.SlugRelatedField(slug_field='id', queryset=OrgUnit.objects.all(), required=False)
+    group_policies = serializers.SlugRelatedField(many=True, slug_field='id', queryset=GroupPolicy.objects.all(), required=False)
     class Meta:
         model = OrgUnit
         fields = ('id', 'name', 'parent', 'group_policies',)
