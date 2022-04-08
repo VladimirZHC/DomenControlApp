@@ -250,7 +250,7 @@ class ParamsSchemaViewSet(viewsets.ModelViewSet):
     serializer_class = ParamsSchemaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['type',]
-    
+    lookup_field = 'type'
     def list(self, request, *args, **kwargs):
         data = super().list(request, *args, **kwargs)
         body = {
@@ -383,7 +383,7 @@ def getschemahistoryidrollback(request, *args, **kwargs):
     return Response(body, status=200)
 
 
-
+@api_view(('GET',))
 def getuseridpolicy(request, *args, **kwargs):
     body = {
   "data": [
@@ -397,6 +397,8 @@ def getuseridpolicy(request, *args, **kwargs):
 }
     return Response(body, status=200)
 
+
+@api_view(('GET',))
 def gethostidpolicy(request, *args, **kwargs):
     body ={
   "data": [
