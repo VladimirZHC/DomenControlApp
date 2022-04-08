@@ -58,6 +58,7 @@ class OrgUnit(models.Model):
 
 class DomainUser(models.Model):
     name = models.CharField('Имя пользователя', max_length=20)
+    login = models.CharField('Логин пользователя',max_length=20, unique=True, default='user1')
     orgunit = models.ForeignKey(
         OrgUnit,
         related_name='users', 

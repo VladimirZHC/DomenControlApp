@@ -204,8 +204,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    nullable: true
                   success:
                     type: boolean
         '500':
@@ -386,8 +384,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    nullable: true
                   success:
                     type: boolean
                     description: Признак успеха операции
@@ -572,6 +568,9 @@ paths:
                     name:
                       type: string
                       example: Владимир
+                    login:
+                      type: string
+                      example: user1
                     orgunit:
                       type: integer
   '/user/{userId}/':
@@ -667,8 +666,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    nullable: true
                   success:
                     type: boolean
                     description: Признак успеха операции
@@ -881,8 +878,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    nullable: true
                   success:
                     type: boolean
                     description: Признак успеха операции
@@ -1114,7 +1109,7 @@ paths:
         name: schemaHistoryId
         in: path
         required: true
-  '/schema/{schemaId}/history/{schemaHistoryId}/rollback':
+  '/schema/{schemaId}/history/{schemaHistoryId}/rollback/':
     parameters:
       - schema:
           type: string

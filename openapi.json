@@ -314,9 +314,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "nullable": true
-                    },
                     "success": {
                       "type": "boolean"
                     }
@@ -423,6 +420,14 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "data": {
+                      "name": "Чаосвой пояс - Москва",
+                      "body": "{\"user\":{\"system\":{\"datetime\":{\"timezone\":\"Europe/Moscow\"}}}}"
+                    }
+                  }
+                },
                 "properties": {
                   "data": {
                     "type": "object",
@@ -435,24 +440,12 @@
                         "type": "string",
                         "minLength": 1
                       }
-                    },
-                    "required": [
-                      "name",
-                      "body"
-                    ]
+                    }
                   }
                 },
                 "required": [
                   "data"
-                ],
-                "x-examples": {
-                  "example-1": {
-                    "data": {
-                      "name": "Чаосвой пояс - Москва",
-                      "body": "{\"user\":{\"system\":{\"datetime\":{\"timezone\":\"Europe/Moscow\"}}}}"
-                    }
-                  }
-                }
+                ]
               },
               "examples": {}
             },
@@ -608,9 +601,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "nullable": true
-                    },
                     "success": {
                       "type": "boolean",
                       "description": "Признак успеха операции"
@@ -908,6 +898,10 @@
                         "type": "string",
                         "example": "Владимир"
                       },
+                      "login": {
+                        "type": "string",
+                        "example": "user1"
+                      },
                       "orgunit": {
                         "type": "integer"
                       }
@@ -1057,9 +1051,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "nullable": true
-                    },
                     "success": {
                       "type": "boolean",
                       "description": "Признак успеха операции"
@@ -1400,9 +1391,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
-                      "nullable": true
-                    },
                     "success": {
                       "type": "boolean",
                       "description": "Признак успеха операции"
@@ -1780,7 +1768,7 @@
         }
       ]
     },
-    "/schema/{schemaId}/history/{schemaHistoryId}/rollback": {
+    "/schema/{schemaId}/history/{schemaHistoryId}/rollback/": {
       "parameters": [
         {
           "schema": {
@@ -1861,11 +1849,13 @@
           "id": {
             "type": "integer",
             "example": 1,
+            "description": "Идентификатор подразделения\n",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "example": "Отдел контроля"
+            "example": "Отдел контроля",
+            "description": "Имя подразделения"
           },
           "parent": {
             "$ref": "#/components/schemas/OrgUnit"
@@ -1889,15 +1879,18 @@
           "id": {
             "type": "integer",
             "example": 1,
+            "description": "Идентификатор групповой политики",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "example": "Энергосбережение"
+            "example": "Энергосбережение",
+            "description": "Имя групповой политики"
           },
           "body": {
             "type": "string",
-            "example": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
+            "example": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}",
+            "description": "Тело групповой политики"
           }
         },
         "required": [
@@ -1913,21 +1906,25 @@
           "id": {
             "type": "integer",
             "example": 1,
+            "description": "Идентификатор истории групповой политики\n",
             "readOnly": true
           },
           "name": {
             "type": "string",
             "example": "Энергосбережение",
+            "description": "Имя групповой политики",
             "readOnly": true
           },
           "body": {
             "type": "string",
             "example": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}",
+            "description": "Тело групповой политики",
             "readOnly": true
           },
           "updated": {
             "type": "string",
             "format": "date-time",
+            "description": "Дата изменения",
             "readOnly": true
           },
           "history_of": {
@@ -1949,11 +1946,19 @@
           "id": {
             "type": "integer",
             "example": 1,
+            "description": "Идентификатор пользователя",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "example": "Владимир"
+            "example": "Владимир",
+            "description": "Имя пользователя"
+          },
+          "login": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9 -_]+",
+            "description": "Логин пользователя",
+            "example": "user1"
           },
           "orgunit": {
             "$ref": "#/components/schemas/OrgUnit"
@@ -1970,11 +1975,13 @@
           "id": {
             "type": "integer",
             "example": 1,
+            "description": "Идентификатор компьютера",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "example": "PC1"
+            "example": "PC1",
+            "description": "Имя компьютера"
           },
           "orgunit": {
             "$ref": "#/components/schemas/OrgUnit"
@@ -1994,11 +2001,13 @@
               "USER",
               "HOST"
             ],
+            "description": "Тип схемы параметров",
             "readOnly": true
           },
           "body": {
             "type": "string",
-            "example": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}"
+            "example": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}",
+            "description": "Тело параметра"
           }
         },
         "required": [
@@ -2011,7 +2020,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Идентификатор истории схемы параметров"
           },
           "type": {
             "type": "string",
@@ -2019,15 +2029,18 @@
               "USER",
               "HOST"
             ],
+            "description": "Тип схемы параметров",
             "readOnly": true
           },
           "body": {
             "type": "string",
-            "example": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}"
+            "example": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}",
+            "description": "Тело параметра запроса"
           },
           "updated": {
             "type": "string",
             "format": "date-time",
+            "description": "Дата обновления",
             "readOnly": true
           }
         },

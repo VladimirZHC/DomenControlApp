@@ -15,6 +15,7 @@ from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
+import re
 
 
 class OrgUnitViewSet(viewsets.ModelViewSet):
@@ -70,7 +71,6 @@ class OrgUnitViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         data =  super().destroy(request, *args, **kwargs)
         body = {
-            'data': "string",
             'success': True
         }
         return Response(data=body, status=200)
@@ -126,7 +126,6 @@ class GroupPolicyViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         data =  super().destroy(request, *args, **kwargs)
         body = {
-            'data': "string",
             'success': True
         }
         return Response(data=body, status=200)
@@ -156,6 +155,8 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         
 
     def create(self, request, *args, **kwargs):
+        if re.search('[а-яА-Я]', self.request.data.get('data').get('login')):
+           raise Exception
         serializer = DomainUserCreateUpdateSerializer(data=request.data.get('data'))
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -168,6 +169,8 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         
     
     def update(self, request, *args, **kwargs):
+        if re.search('[а-яА-Я]', self.request.data.get('data').get('login')):
+           raise Exception
         instance = self.get_object()
         serializer = DomainUserCreateUpdateSerializer(instance, data=request.data.get('data'), partial=True)
         serializer.is_valid(raise_exception=True)
@@ -182,7 +185,6 @@ class DomainUserViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         data =  super().destroy(request, *args, **kwargs)
         body = {
-            'data': "string",
             'success': True
         }
         return Response(data=body, status=200)
@@ -238,7 +240,6 @@ class HostViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         data =  super().destroy(request, *args, **kwargs)
         body = {
-            'data': "string",
             'success': True
         }
         return Response(data=body, status=200)
@@ -249,6 +250,7 @@ class ParamsSchemaViewSet(viewsets.ModelViewSet):
     serializer_class = ParamsSchemaSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, ]
     filterset_fields = ['type',]
+    
     def list(self, request, *args, **kwargs):
         data = super().list(request, *args, **kwargs)
         body = {
@@ -285,7 +287,7 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
     
 
 @api_view(('GET',))
-def getgrouppolicyhistory(request):
+def getgrouppolicyhistory(request, *args, **kwargs):
     body = {
   "data": [
     {
@@ -306,7 +308,7 @@ def getgrouppolicyhistory(request):
 
 
 @api_view(('GET',))
-def getgrouppolicyhistoryid(request):
+def getgrouppolicyhistoryid(request, *args, **kwargs):
     body = {
   "data": {
     "id": 1,
@@ -325,7 +327,7 @@ def getgrouppolicyhistoryid(request):
 
 
 @api_view(('POST',))
-def getgrouppolicyhistoryrollback(request):
+def getgrouppolicyhistoryrollback(request, *args, **kwargs):
     body = {
   "data": {
     "id": 1,
@@ -340,7 +342,7 @@ def getgrouppolicyhistoryrollback(request):
 
 
 @api_view(('GET',))
-def getschemahistory(request):
+def getschemahistory(request, *args, **kwargs):
     body = {
   "data": [
     {
@@ -356,7 +358,7 @@ def getschemahistory(request):
 
 
 @api_view(('GET',))
-def getschemahistoryid(request):
+def getschemahistoryid(request, *args, **kwargs):
     body = {
   "data": {
     "id": 0,
@@ -370,7 +372,7 @@ def getschemahistoryid(request):
 
 
 @api_view(('POST',))
-def getschemahistoryidrollback(request):
+def getschemahistoryidrollback(request, *args, **kwargs):
     body = {
   "data": {
     "type": "USER",
@@ -382,4 +384,28 @@ def getschemahistoryidrollback(request):
 
 
 
-    
+def getuseridpolicy(request, *args, **kwargs):
+    body = {
+  "data": [
+    {
+      "id": 1,
+      "name": "Энергосбережение",
+      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
+    }
+  ],
+  "success": True
+}
+    return Response(body, status=200)
+
+def gethostidpolicy(request, *args, **kwargs):
+    body ={
+  "data": [
+    {
+      "id": 1,
+      "name": "Энергосбережение",
+      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
+    }
+  ],
+  "success": True
+}
+    return Response(body, status=200)

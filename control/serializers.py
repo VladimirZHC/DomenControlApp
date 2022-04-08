@@ -1,3 +1,4 @@
+from django.forms import CharField
 from rest_framework import serializers
 from .models import DomainUser, GroupPolicy, Host, OrgUnit, ParamsSchema
 import json
@@ -20,7 +21,7 @@ class BodyField(serializers.JSONField):
      
 class GroupPolicySerializer(serializers.ModelSerializer):
    
-    body = BodyField(required=False)
+    body = serializers.CharField(required=False)
     
     class Meta:
         model = GroupPolicy
@@ -49,13 +50,13 @@ class DomainUserSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
     class Meta:
         model = DomainUser
-        fields = ('id','name', 'orgunit',)
+        fields = ('id','name', 'login', 'orgunit',)
         
 class DomainUserCreateUpdateSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
     class Meta:
         model = DomainUser
-        fields = ('id','name', 'orgunit',)
+        fields = ('id','name', 'login','orgunit',)
         
 class HostSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
@@ -73,7 +74,7 @@ class HostCreateUpdateSerializer(serializers.ModelSerializer):
         
         
 class ParamsSchemaSerializer(serializers.ModelSerializer):
-    body = BodyField(required=False)
+    body = CharField(required=False)
     
     class Meta:
         model = ParamsSchema
