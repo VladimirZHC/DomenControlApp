@@ -1,3 +1,5 @@
+
+from cgitb import reset
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
@@ -8,8 +10,6 @@ from .views import (
     getschemahistory, 
     getschemahistoryid, 
     getschemahistoryidrollback,
-    getuseridpolicy,
-    gethostidpolicy,
     )
 
 orgunits_list = views.OrgUnitViewSet.as_view({
@@ -79,6 +79,9 @@ schema_post_detail = views.ParamsSchemaViewSet.as_view({
     'put': 'update',
 })
 
+result_policy_user = views.DomainUserViewSet.as_view({
+    'get': 'policy',
+})
 
 
 
@@ -112,8 +115,9 @@ urlpatterns = [
     path('schema/<str:type>/history/', getschemahistory),
     path('schema/<str:type>/history/<int:history_pk>/', getschemahistoryid),
     path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
-    path('user/<int:pk>/policy/', getuseridpolicy),
-    path('host/<int:pk>/policy/', gethostidpolicy),
+    # path('user/<int:pk>/policy/', getuseridpolicy),
+    # path('host/<int:pk>/policy/', gethostidpolicy),
+    path('user/<int:pk>/policy', result_policy_user, name='result-policy-user')
 ]
 
 

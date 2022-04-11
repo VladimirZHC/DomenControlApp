@@ -41,6 +41,7 @@ paths:
                     type: boolean
         '500':
           $ref: '#/components/responses/ErrorResponse'
+    parameters: []
   /orgunit/:
     post:
       tags:

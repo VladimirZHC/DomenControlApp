@@ -1,3 +1,4 @@
+from urllib import response
 from rest_framework import viewsets
 from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
@@ -16,6 +17,8 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
 import re
+import json
+
 
 
 class OrgUnitViewSet(viewsets.ModelViewSet):
@@ -188,6 +191,20 @@ class DomainUserViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+    
+    def policy(self, request, *args, **kwargs):
+        def retrieve_policies(obj, policies):
+            policies.append(obj.orgunit.group_policies)
+            if obj.orgunit.parent is not None:
+                return retrieve_policies(obj.orgunit.parent, policies)
+            return policies
+        user = DomainUser.objects.get(id=kwargs.get('pk'))
+        res = retrieve_policies(user, [])
+        print(res)
+        body = {
+            "policies": res
+        }
+        return Response(body, status=200)
     
 
 class HostViewSet(viewsets.ModelViewSet):
@@ -411,3 +428,16 @@ def gethostidpolicy(request, *args, **kwargs):
   "success": True
 }
     return Response(body, status=200)
+
+
+
+
+
+    
+
+        
+        
+    
+    
+    
+   

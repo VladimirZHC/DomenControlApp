@@ -50,6 +50,11 @@ class OrgUnit(models.Model):
 
     def __str__(self):
         return f'Подразделение: {self.name}'
+    
+    def save(self, *args, **kwargs):
+        if self.parent is None:
+            self.parent = OrgUnit.objects.get(id=1)
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Подразделение'
@@ -71,6 +76,11 @@ class DomainUser(models.Model):
     def __str__(self):
         return f'Пользователь {self.name}'
     
+    def save(self, *args, **kwargs):
+        if self.orgunit is None:
+            self.orgunit = OrgUnit.objects.get(id=1)
+        return super().save(*args, **kwargs)
+    
     class Meta:
         verbose_name = 'Пользователя'
         verbose_name_plural = 'Пользователи'
@@ -89,6 +99,11 @@ class Host(models.Model):
 
     def __str__(self):
         return f'Компьютер {self.name}'
+    
+    def save(self, *args, **kwargs):
+        if self.orgunit is None:
+            self.orgunit = OrgUnit.objects.get(id=1)
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Компьютер'
@@ -97,4 +112,4 @@ class Host(models.Model):
 
 ParamsSchema.objects.get_or_create(type="USER")
 ParamsSchema.objects.get_or_create(type="HOST")
-OrgUnit.objects.get_or_create(name="root")
+# OrgUnit.objects.get_or_create(name="root")

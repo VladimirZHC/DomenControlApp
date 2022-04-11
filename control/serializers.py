@@ -79,3 +79,6 @@ class ParamsSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParamsSchema
         fields = ('type', 'body', )
+        
+
+    
