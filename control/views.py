@@ -201,7 +201,8 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         result = retrieve_policies(user.orgunit, [])
         serializer = GroupPolicySerializer(result, many=True)
         body = {
-            'policies': serializer.data
+            'data': serializer.data,
+            'success': True
         }
         return Response(body, status=200)
     
@@ -270,7 +271,8 @@ class HostViewSet(viewsets.ModelViewSet):
         result = retrieve_policies(user.orgunit, [])
         serializer = GroupPolicySerializer(result, many=True)
         body = {
-            'policies': serializer.data
+            'data': serializer.data,
+            'success': True
         }
         return Response(body, status=200)
     
@@ -413,34 +415,8 @@ def getschemahistoryidrollback(request, *args, **kwargs):
     return Response(body, status=200)
 
 
-@api_view(('GET',))
-def getuseridpolicy(request, *args, **kwargs):
-    body = {
-  "data": [
-    {
-      "id": 1,
-      "name": "Энергосбережение",
-      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
-    }
-  ],
-  "success": True
-}
-    return Response(body, status=200)
 
 
-@api_view(('GET',))
-def gethostidpolicy(request, *args, **kwargs):
-    body ={
-  "data": [
-    {
-      "id": 1,
-      "name": "Энергосбережение",
-      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
-    }
-  ],
-  "success": True
-}
-    return Response(body, status=200)
 
 
 
