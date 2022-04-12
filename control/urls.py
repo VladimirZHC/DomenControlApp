@@ -83,7 +83,9 @@ result_policy_user = views.DomainUserViewSet.as_view({
     'get': 'policy',
 })
 
-
+result_policy_host = views.HostViewSet.as_view({
+    'get': 'policy',
+})
 
 router = DefaultRouter()
 router.register(r'orgunits', views.OrgUnitViewSet, basename='orgunit')
@@ -115,9 +117,8 @@ urlpatterns = [
     path('schema/<str:type>/history/', getschemahistory),
     path('schema/<str:type>/history/<int:history_pk>/', getschemahistoryid),
     path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
-    # path('user/<int:pk>/policy/', getuseridpolicy),
-    # path('host/<int:pk>/policy/', gethostidpolicy),
-    path('user/<int:pk>/policy', result_policy_user, name='result-policy-user')
+    path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
+    path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host')
 ]
 
 

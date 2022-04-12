@@ -572,6 +572,7 @@ paths:
                     login:
                       type: string
                       example: user1
+                      pattern: '^[A-Za-z-_]+'
                     orgunit:
                       type: integer
   '/user/{userId}/':
@@ -646,6 +647,10 @@ paths:
                       type: string
                     orgunit:
                       type: integer
+                    login:
+                      type: string
+                      pattern: '^[A-Za-z-_]+'
+      description: ''
     delete:
       tags:
         - DomainUser

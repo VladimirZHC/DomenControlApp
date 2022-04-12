@@ -54,6 +54,8 @@ class OrgUnit(models.Model):
     def save(self, *args, **kwargs):
         if self.parent is None:
             self.parent = OrgUnit.objects.get(id=1)
+        elif self.id == 1 and self.parent is not None:
+            raise Exception
         return super().save(*args, **kwargs)
 
     class Meta:

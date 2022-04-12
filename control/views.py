@@ -1,4 +1,3 @@
-from urllib import response
 from rest_framework import viewsets
 from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
@@ -194,15 +193,15 @@ class DomainUserViewSet(viewsets.ModelViewSet):
     
     def policy(self, request, *args, **kwargs):
         def retrieve_policies(obj, policies):
-            policies.append(obj.orgunit.group_policies)
-            if obj.orgunit.parent is not None:
-                return retrieve_policies(obj.orgunit.parent, policies)
+            policies.extend(obj.group_policies.all())
+            if obj.parent is not None:
+                return retrieve_policies(obj.parent, policies)
             return policies
         user = DomainUser.objects.get(id=kwargs.get('pk'))
-        res = retrieve_policies(user, [])
-        print(res)
+        result = retrieve_policies(user.orgunit, [])
+        serializer = GroupPolicySerializer(result, many=True)
         body = {
-            "policies": res
+            'policies': serializer.data
         }
         return Response(body, status=200)
     
@@ -260,6 +259,20 @@ class HostViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+    
+    def policy(self, request, *args, **kwargs):
+        def retrieve_policies(obj, policies):
+            policies.extend(obj.group_policies.all())
+            if obj.parent is not None:
+                return retrieve_policies(obj.parent, policies)
+            return policies
+        user = Host.objects.get(id=kwargs.get('pk'))
+        result = retrieve_policies(user.orgunit, [])
+        serializer = GroupPolicySerializer(result, many=True)
+        body = {
+            'policies': serializer.data
+        }
+        return Response(body, status=200)
     
 
 class ParamsSchemaViewSet(viewsets.ModelViewSet):
