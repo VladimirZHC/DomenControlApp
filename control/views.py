@@ -7,8 +7,9 @@ from .serializers import (
     ParamsSchemaSerializer, 
     HostSerializer,
     OrgUnitCreatedUpdateSerializer,
-    DomainUserCreateUpdateSerializer,
     HostCreateUpdateSerializer,
+    DomainUserCreateSerializer,
+    DomainUserUpdateSerializer,
                         )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -157,7 +158,7 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         
 
     def create(self, request, *args, **kwargs):
-        serializer = DomainUserCreateUpdateSerializer(data=request.data.get('data'))
+        serializer = DomainUserCreateSerializer(data=request.data.get('data'))
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         data =  DomainUserSerializer(serializer.instance)
@@ -170,7 +171,7 @@ class DomainUserViewSet(viewsets.ModelViewSet):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = DomainUserCreateUpdateSerializer(instance, data=request.data.get('data'), partial=True)
+        serializer = DomainUserUpdateSerializer(instance, data=request.data.get('data'), partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         data =  DomainUserSerializer(serializer.instance)

@@ -41,6 +41,7 @@ paths:
                     type: boolean
         '500':
           $ref: '#/components/responses/ErrorResponse'
+    parameters: []
   /orgunit/:
     post:
       tags:
@@ -571,6 +572,7 @@ paths:
                     login:
                       type: string
                       example: user1
+                      pattern: '^[A-Za-z-_]+'
                     orgunit:
                       type: integer
   '/user/{userId}/':
@@ -645,6 +647,7 @@ paths:
                       type: string
                     orgunit:
                       type: integer
+      description: ''
     delete:
       tags:
         - DomainUser
@@ -1252,6 +1255,7 @@ components:
           $ref: '#/components/schemas/OrgUnit'
       required:
         - name
+        - login
     Host:
       description: Информация о компьютере
       type: object

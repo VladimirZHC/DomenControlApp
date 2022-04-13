@@ -68,7 +68,8 @@
             "$ref": "#/components/responses/ErrorResponse"
           }
         }
-      }
+      },
+      "parameters": []
     },
     "/orgunit/": {
       "post": {
@@ -900,7 +901,8 @@
                       },
                       "login": {
                         "type": "string",
-                        "example": "user1"
+                        "example": "user1",
+                        "pattern": "^[A-Za-z-_]+"
                       },
                       "orgunit": {
                         "type": "integer"
@@ -1023,7 +1025,8 @@
               }
             }
           }
-        }
+        },
+        "description": ""
       },
       "delete": {
         "tags": [
@@ -1965,7 +1968,8 @@
           }
         },
         "required": [
-          "name"
+          "name",
+          "login"
         ]
       },
       "Host": {

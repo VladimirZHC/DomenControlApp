@@ -647,9 +647,6 @@ paths:
                       type: string
                     orgunit:
                       type: integer
-                    login:
-                      type: string
-                      pattern: '^[A-Za-z-_]+'
       description: ''
     delete:
       tags:

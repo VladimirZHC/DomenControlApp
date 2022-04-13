@@ -1,4 +1,4 @@
-from wsgiref.validate import validator
+
 from django.forms import CharField
 from rest_framework import serializers
 from .models import DomainUser, GroupPolicy, Host, OrgUnit, ParamsSchema
@@ -49,17 +49,15 @@ class OrgUnitCreatedUpdateSerializer(serializers.ModelSerializer):
 
 
 class DomainUserSerializer(serializers.ModelSerializer):
-    
     orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
-    login = serializers.CharField()
-    
     
     class Meta:
         model = DomainUser
         fields = ('id','name', 'login', 'orgunit',)
         
-class DomainUserCreateUpdateSerializer(serializers.ModelSerializer):
+class DomainUserCreateSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
+    login = serializers.CharField(required=True)
     
     def validate_login(self, login):
         if re.search('[а-яА-Я]', login):
@@ -69,6 +67,15 @@ class DomainUserCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = DomainUser
         fields = ('id','name', 'login','orgunit',)
+        
+class DomainUserUpdateSerializer(serializers.ModelSerializer):
+    orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
+    
+    class Meta:
+        model = DomainUser
+        fields = ('id','name','orgunit')
+
+        
         
 class HostSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
