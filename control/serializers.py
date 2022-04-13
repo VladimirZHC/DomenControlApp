@@ -1,8 +1,9 @@
+from wsgiref.validate import validator
 from django.forms import CharField
 from rest_framework import serializers
 from .models import DomainUser, GroupPolicy, Host, OrgUnit, ParamsSchema
 import json
-
+import re
 
 class BodyField(serializers.JSONField):
     
@@ -46,14 +47,25 @@ class OrgUnitCreatedUpdateSerializer(serializers.ModelSerializer):
         
         
 
+
 class DomainUserSerializer(serializers.ModelSerializer):
+    
     orgunit = serializers.SlugRelatedField(slug_field='name',  queryset=OrgUnit.objects.all(), required=False)
+    login = serializers.CharField()
+    
+    
     class Meta:
         model = DomainUser
         fields = ('id','name', 'login', 'orgunit',)
         
 class DomainUserCreateUpdateSerializer(serializers.ModelSerializer):
     orgunit = serializers.SlugRelatedField(slug_field='id',  queryset=OrgUnit.objects.all(), required=False)
+    
+    def validate_login(self, login):
+        if re.search('[а-яА-Я]', login):
+            raise serializers.ValidationError('Login must contain only latin latters')
+        return login
+    
     class Meta:
         model = DomainUser
         fields = ('id','name', 'login','orgunit',)
@@ -70,6 +82,8 @@ class HostCreateUpdateSerializer(serializers.ModelSerializer):
         model = Host
         fields = ('id','name', 'orgunit',)
         
+
+
         
         
         

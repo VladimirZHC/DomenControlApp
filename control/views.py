@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
 import re
-import json
+
 
 
 
@@ -157,8 +157,6 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         
 
     def create(self, request, *args, **kwargs):
-        if re.search('[а-яА-Я]', self.request.data.get('data').get('login')):
-           raise Exception
         serializer = DomainUserCreateUpdateSerializer(data=request.data.get('data'))
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -171,8 +169,6 @@ class DomainUserViewSet(viewsets.ModelViewSet):
         
     
     def update(self, request, *args, **kwargs):
-        if re.search('[а-яА-Я]', self.request.data.get('data').get('login')):
-           raise Exception
         instance = self.get_object()
         serializer = DomainUserCreateUpdateSerializer(instance, data=request.data.get('data'), partial=True)
         serializer.is_valid(raise_exception=True)
@@ -267,8 +263,8 @@ class HostViewSet(viewsets.ModelViewSet):
             if obj.parent is not None:
                 return retrieve_policies(obj.parent, policies)
             return policies
-        user = Host.objects.get(id=kwargs.get('pk'))
-        result = retrieve_policies(user.orgunit, [])
+        host = Host.objects.get(id=kwargs.get('pk'))
+        result = retrieve_policies(host.orgunit, [])
         serializer = GroupPolicySerializer(result, many=True)
         body = {
             'data': serializer.data,
