@@ -2,7 +2,8 @@ from django.forms import CharField
 from rest_framework import serializers
 from .models import (
     DomainUser, 
-    GroupPolicy, 
+    GroupPolicy,
+    HistoryGroupPolicy, 
     HistoryParamsSchema, 
     Host, 
     OrgUnit, 
@@ -112,3 +113,12 @@ class HistoryParamsSchemaSerializer(serializers.ModelSerializer):
     class Meta:
         model = HistoryParamsSchema
         fields = ('id', 'type', 'body', 'updated')
+        
+
+class HistoryGroupPolicySerializer(serializers.ModelSerializer):
+    history_of = GroupPolicySerializer()
+    updated = serializers.DateTimeField(format='%H:%M:%S %d/%m/%Y')
+    
+    class Meta:
+        model = HistoryGroupPolicy
+        fields = ('id', 'name', 'body', 'updated', 'history_of')

@@ -113,24 +113,27 @@ class Host(models.Model):
         
         
         
-# class HistoryGroupPolicy(models.Model):
-#     group_policy = models.ForeignKey(GroupPolicy, related_name='history', on_delete=models.CASCADE)
-#     name = models.CharField('Наименование политики', max_length=30, unique=True)
-#     body = models.TextField('Содержимое политики', null=True, blank=True)
-#     updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
+class HistoryGroupPolicy(models.Model):
+    history_of = models.ForeignKey(GroupPolicy, related_name='history', on_delete=models.CASCADE)
+    name = models.CharField('Наименование политики', max_length=30, unique=True)
+    body = models.TextField('Содержимое политики', null=True, blank=True)
+    updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
+    
+    def __str__(self):
+        return f'{self.history_of}'
     
     
-    
-    
-#     class Meta:
-#         verbose_name = 'Историю групповой политики'
-#         verbose_name_plural = 'Истории групповой политики'
+    class Meta:
+        verbose_name = 'Историю групповой политики'
+        verbose_name_plural = 'Истории групповой политики'
     
     
 class HistoryParamsSchema(models.Model):
     type = models.ForeignKey(ParamsSchema, related_name='history', on_delete=models.CASCADE)
     body = models.TextField('Содержимое схемы', null=True, blank=True, default="{}")
     updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
+    
+    
     def __str__(self):
         return f'Тип: {self.type}'
 

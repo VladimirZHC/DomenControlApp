@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 
-from .models import HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
+from .models import HistoryGroupPolicy, HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 
     DomainUserSerializer,
+    HistoryGroupPolicySerializer,
     HistoryParamsSchemaSerializer, 
     OrgUnitSerializer, 
     ParamsSchemaSerializer, 
@@ -342,8 +343,30 @@ class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
 
 
 
-
-
+class HistoryGroupPolicyViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoryGroupPolicySerializer
+    queryset = HistoryGroupPolicy.objects.all()
+    
+    def list(self, request, *args, **kwargs):
+        data = HistoryGroupPolicy.objects.filter(history_of=kwargs.get('pk'))
+        print(data)
+        serializer = HistoryGroupPolicySerializer(data, many=True)
+        body = {
+            'data': serializer.data,
+            'success': True
+        }
+        return Response(body, status=200)
+    def retrieve(self, request, *args, **kwargs):
+        data = HistoryGroupPolicy.objects.get(id=kwargs.get('pk'))
+        serializer = HistoryGroupPolicySerializer(data)
+        body = {
+            'data': serializer.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+    
+    
 
 
 
@@ -443,35 +466,6 @@ def getgrouppolicyhistoryrollback(request, *args, **kwargs):
 
 
 
-
-@api_view(('GET',))
-def getschemahistory(request, *args, **kwargs):
-    body = {
-  "data": [
-    {
-      "id": 0,
-      "type": "USER",
-      "body": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}",
-      "updated": "2022-04-07T16:40:47.376Z"
-    }
-  ],
-  "success": True
-}
-    return Response(body, status=200)
-
-
-@api_view(('GET',))
-def getschemahistoryid(request, *args, **kwargs):
-    body = {
-  "data": {
-    "id": 0,
-    "type": "USER",
-    "body": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}",
-    "updated": "2022-04-07T16:48:50.831Z"
-  },
-  "success": True
-}
-    return Response(body, status=200)
 
 
 @api_view(('POST',))

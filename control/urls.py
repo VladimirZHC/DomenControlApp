@@ -1,5 +1,3 @@
-
-from cgitb import reset
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
@@ -7,8 +5,6 @@ from .views import (
     getgrouppolicyhistory, 
     getgrouppolicyhistoryid, 
     getgrouppolicyhistoryrollback, 
-    getschemahistory, 
-    getschemahistoryid, 
     getschemahistoryidrollback,
     )
 
@@ -97,6 +93,15 @@ schema_id_history_id =  views.HistoryParamsSchemaViewSet.as_view({
 })
 
 
+group_policy_id_history = views.HistoryGroupPolicyViewSet.as_view({
+    'get': 'list',
+})
+
+group_policy_id_history_id = views.HistoryGroupPolicyViewSet.as_view({
+    'get': 'retrieve',
+})
+
+
 
 
 router = DefaultRouter()
@@ -123,14 +128,14 @@ urlpatterns = [
     path('host/<int:pk>/', host_detail, name='host-detail'),
     path('schemas/', schemas_list, name='schemas-list'),
     path('schema/<str:type>/', schema_post_detail, name='computer-detail'),
-    path('grouppolicy/<int:pk>/history/', getgrouppolicyhistory),
-    path('grouppolicy/<int:pk>/history/<int:history_pk>/', getgrouppolicyhistoryid),
-    path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
+    path('grouppolicy/<int:pk>/history/', group_policy_id_history, name='group-policy-id-history'),
+    path('grouppolicy/<int:history_of>/history/<int:pk>/', group_policy_id_history_id, name='group-policy-id-history-id'),
+    # path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
     # path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
     path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
     path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host'),
     path('schema/<str:type>/history/', schema_id_history, name='schema-id-history'),
-    path('schema/<str:type>/history/<int:history_pk>/', schema_id_history_id, name='schema-id-history-id')
+    path('schema/<str:type>/history/<int:pk>/', schema_id_history_id, name='schema-id-history-id')
 ]
 
 
