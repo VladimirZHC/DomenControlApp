@@ -110,8 +110,43 @@ class Host(models.Model):
     class Meta:
         verbose_name = 'Компьютер'
         verbose_name_plural = 'Компьютеры'
+        
+        
+        
+# class HistoryGroupPolicy(models.Model):
+#     group_policy = models.ForeignKey(GroupPolicy, related_name='history', on_delete=models.CASCADE)
+#     name = models.CharField('Наименование политики', max_length=30, unique=True)
+#     body = models.TextField('Содержимое политики', null=True, blank=True)
+#     updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
+    
+    
+    
+    
+#     class Meta:
+#         verbose_name = 'Историю групповой политики'
+#         verbose_name_plural = 'Истории групповой политики'
+    
+    
+class HistoryParamsSchema(models.Model):
+    paramsschema = models.ForeignKey(ParamsSchema, related_name='history', on_delete=models.CASCADE)
+    type = models.CharField('Типы', max_length=10, default='HOST')
+    body = models.TextField('Содержимое схемы', null=True, blank=True, default="{}")
+    updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
+    def __str__(self):
+        return f'Тип: {self.type}'
 
+    class Meta:
+        verbose_name = 'Историю схемы параметров'
+        verbose_name_plural = 'Истории схемы параметров'
+    
+    
+    
+    
+    
+    
+    
+    
 
-ParamsSchema.objects.get_or_create(type="USER")
-ParamsSchema.objects.get_or_create(type="HOST")
+# ParamsSchema.objects.get_or_create(type="USER")
+# ParamsSchema.objects.get_or_create(type="HOST")
 # OrgUnit.objects.get_or_create(name="root")

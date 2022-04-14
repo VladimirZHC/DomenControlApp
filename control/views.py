@@ -1,8 +1,9 @@
 from rest_framework import viewsets
-from .models import OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
+from .models import HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 
-    DomainUserSerializer, 
+    DomainUserSerializer,
+    HistoryParamsSchemaSerializer, 
     OrgUnitSerializer, 
     ParamsSchemaSerializer, 
     HostSerializer,
@@ -314,6 +315,69 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
     def get_paginated_response(self, data):
         return Response(data)
     
+    
+class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
+    serializer_class = HistoryParamsSchemaSerializer
+    queryset = HistoryParamsSchema.objects.all()
+    lookup_field = 'type'
+    
+    def list(self, request, *args, **kwargs):
+        data = super().list(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @api_view(('GET',))
 def getgrouppolicyhistory(request, *args, **kwargs):

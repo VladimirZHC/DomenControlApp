@@ -87,6 +87,12 @@ result_policy_host = views.HostViewSet.as_view({
     'get': 'policy',
 })
 
+schema_id_history =  views.HistoryParamsSchemaViewSet.as_view({
+    'get': 'list'
+})
+
+
+
 router = DefaultRouter()
 router.register(r'orgunits', views.OrgUnitViewSet, basename='orgunit')
 router.register(r'grouppolicies', views.GroupPolicyViewSet)
@@ -114,11 +120,12 @@ urlpatterns = [
     path('grouppolicy/<int:pk>/history/', getgrouppolicyhistory),
     path('grouppolicy/<int:pk>/history/<int:history_pk>/', getgrouppolicyhistoryid),
     path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
-    path('schema/<str:type>/history/', getschemahistory),
-    path('schema/<str:type>/history/<int:history_pk>/', getschemahistoryid),
-    path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
+    # path('schema/<str:type>/history/', getschemahistory),
+    # path('schema/<str:type>/history/<int:history_pk>/', getschemahistoryid),
+    # path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
     path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
-    path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host')
+    path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host'),
+    path('schema/<str:type>/history/', schema_id_history, name='schema-id-history')
 ]
 
 

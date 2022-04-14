@@ -1,7 +1,13 @@
-
 from django.forms import CharField
 from rest_framework import serializers
-from .models import DomainUser, GroupPolicy, Host, OrgUnit, ParamsSchema
+from .models import (
+    DomainUser, 
+    GroupPolicy, 
+    HistoryParamsSchema, 
+    Host, 
+    OrgUnit, 
+    ParamsSchema,
+    )
 import json
 import re
 
@@ -90,9 +96,6 @@ class HostCreateUpdateSerializer(serializers.ModelSerializer):
         fields = ('id','name', 'orgunit',)
         
 
-
-        
-        
         
 class ParamsSchemaSerializer(serializers.ModelSerializer):
     body = CharField(required=False)
@@ -103,3 +106,9 @@ class ParamsSchemaSerializer(serializers.ModelSerializer):
         
 
     
+class HistoryParamsSchemaSerializer(serializers.ModelSerializer):
+    updated = serializers.DateTimeField(format='%H:%M:%S %d/%m/%Y')
+    
+    class Meta:
+        model = HistoryParamsSchema
+        fields = ('id', 'type', 'body', 'updated')
