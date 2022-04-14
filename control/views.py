@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+
 from .models import HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 
@@ -319,20 +320,22 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
 class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
     serializer_class = HistoryParamsSchemaSerializer
     queryset = HistoryParamsSchema.objects.all()
-    lookup_field = 'type'
     
     def list(self, request, *args, **kwargs):
-        data = super().list(request, *args, **kwargs)
+        data = HistoryParamsSchema.objects.filter(type=kwargs.get('type'))
+        serializer = HistoryParamsSchemaSerializer(data, many=True)
         body = {
-            'data': data.data,
+            'data': serializer.data,
             'success': True
         }
         return Response(data=body, status=200)
     
     def retrieve(self, request, *args, **kwargs):
-        data = super().retrieve(request, *args, **kwargs)
+        data = HistoryParamsSchema.objects.get(id=kwargs.get('pk'))
+        serializer = HistoryParamsSchemaSerializer(data)
+        
         body = {
-            'data': data.data,
+            'data': serializer.data,
             'success': True
         }
         return Response(data=body, status=200)

@@ -128,8 +128,7 @@ class Host(models.Model):
     
     
 class HistoryParamsSchema(models.Model):
-    paramsschema = models.ForeignKey(ParamsSchema, related_name='history', on_delete=models.CASCADE)
-    type = models.CharField('Типы', max_length=10, default='HOST')
+    type = models.ForeignKey(ParamsSchema, related_name='history', on_delete=models.CASCADE)
     body = models.TextField('Содержимое схемы', null=True, blank=True, default="{}")
     updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
     def __str__(self):

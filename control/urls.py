@@ -130,7 +130,7 @@ urlpatterns = [
     path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
     path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host'),
     path('schema/<str:type>/history/', schema_id_history, name='schema-id-history'),
-    path('schema/<str:type>/history/<int:pk>/', schema_id_history_id, name='schema-id-history-id')
+    path('schema/<str:type>/history/<int:history_pk>/', schema_id_history_id, name='schema-id-history-id')
 ]
 
 
