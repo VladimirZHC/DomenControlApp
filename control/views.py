@@ -329,6 +329,13 @@ class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
         }
         return Response(data=body, status=200)
     
+    def retrieve(self, request, *args, **kwargs):
+        data = super().retrieve(request, *args, **kwargs)
+        body = {
+            'data': data.data,
+            'success': True
+        }
+        return Response(data=body, status=200)
 
 
 

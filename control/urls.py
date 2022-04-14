@@ -88,8 +88,14 @@ result_policy_host = views.HostViewSet.as_view({
 })
 
 schema_id_history =  views.HistoryParamsSchemaViewSet.as_view({
-    'get': 'list'
+    'get': 'list',
 })
+
+
+schema_id_history_id =  views.HistoryParamsSchemaViewSet.as_view({
+    'get': 'retrieve',
+})
+
 
 
 
@@ -120,12 +126,11 @@ urlpatterns = [
     path('grouppolicy/<int:pk>/history/', getgrouppolicyhistory),
     path('grouppolicy/<int:pk>/history/<int:history_pk>/', getgrouppolicyhistoryid),
     path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
-    # path('schema/<str:type>/history/', getschemahistory),
-    # path('schema/<str:type>/history/<int:history_pk>/', getschemahistoryid),
     # path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
     path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
     path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host'),
-    path('schema/<str:type>/history/', schema_id_history, name='schema-id-history')
+    path('schema/<str:type>/history/', schema_id_history, name='schema-id-history'),
+    path('schema/<str:type>/history/<int:pk>/', schema_id_history_id, name='schema-id-history-id')
 ]
 
 
