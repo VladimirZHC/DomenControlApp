@@ -18,7 +18,7 @@ class ParamsSchema(models.Model):
 
 
 class GroupPolicy(models.Model):
-    name = models.CharField('Групповая политика', max_length=30, unique=True)
+    name = models.CharField('Групповая политика', max_length=30)
     body = models.TextField('Содержимое политики', null=True, blank=True)
     search_fields = ['name']
 
@@ -26,7 +26,7 @@ class GroupPolicy(models.Model):
         return f'Групповая политика: {self.name}'
 
     class Meta:
-        ordering = ['name']
+        ordering = ['id']
         verbose_name = 'Групповую политиику'
         verbose_name_plural = 'Групповые политики'
 
