@@ -320,23 +320,27 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
     
 class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
     serializer_class = HistoryParamsSchemaSerializer
-    queryset = HistoryParamsSchema.objects.all()
+    
+    
+    def get_queryset(self):
+        type = self.kwargs.get('type', None)
+        queryset =  HistoryParamsSchema.objects.filter(type=type)
+        if len(queryset) > 0:
+            return queryset
+        raise Exception
     
     def list(self, request, *args, **kwargs):
-        data = HistoryParamsSchema.objects.filter(type=kwargs.get('type'))
-        serializer = HistoryParamsSchemaSerializer(data, many=True)
+        data = super().list(request, *args, **kwargs)
         body = {
-            'data': serializer.data,
+            'data': data.data,
             'success': True
         }
         return Response(data=body, status=200)
     
     def retrieve(self, request, *args, **kwargs):
-        data = HistoryParamsSchema.objects.get(id=kwargs.get('pk'))
-        serializer = HistoryParamsSchemaSerializer(data)
-        
+        data = super().retrieve(request, *args, **kwargs)
         body = {
-            'data': serializer.data,
+            'data': data.data,
             'success': True
         }
         return Response(data=body, status=200)
@@ -345,22 +349,28 @@ class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
 
 class HistoryGroupPolicyViewSet(viewsets.ModelViewSet):
     serializer_class = HistoryGroupPolicySerializer
-    queryset = HistoryGroupPolicy.objects.all()
+    lookup_kwarg = 'pk'
+    
+    def get_queryset(self):
+        id = self.kwargs.get('history_of', None)
+        queryset =  HistoryGroupPolicy.objects.filter(history_of=id)
+        if len(queryset) > 0:
+            return queryset
+        raise Exception
+    
     
     def list(self, request, *args, **kwargs):
-        data = HistoryGroupPolicy.objects.filter(history_of=kwargs.get('pk'))
-        print(data)
-        serializer = HistoryGroupPolicySerializer(data, many=True)
+        data = super().list(request, *args, **kwargs)
         body = {
-            'data': serializer.data,
+            'data': data.data,
             'success': True
         }
         return Response(body, status=200)
+    
     def retrieve(self, request, *args, **kwargs):
-        data = HistoryGroupPolicy.objects.get(id=kwargs.get('pk'))
-        serializer = HistoryGroupPolicySerializer(data)
+        data = super().retrieve(request, *args, **kwargs)
         body = {
-            'data': serializer.data,
+            'data': data.data,
             'success': True
         }
         return Response(data=body, status=200)

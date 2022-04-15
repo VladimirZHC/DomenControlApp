@@ -128,7 +128,7 @@ urlpatterns = [
     path('host/<int:pk>/', host_detail, name='host-detail'),
     path('schemas/', schemas_list, name='schemas-list'),
     path('schema/<str:type>/', schema_post_detail, name='computer-detail'),
-    path('grouppolicy/<int:pk>/history/', group_policy_id_history, name='group-policy-id-history'),
+    path('grouppolicy/<int:history_of>/history/', group_policy_id_history, name='group-policy-id-history'),
     path('grouppolicy/<int:history_of>/history/<int:pk>/', group_policy_id_history_id, name='group-policy-id-history-id'),
     # path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
     # path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
