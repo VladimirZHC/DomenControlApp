@@ -761,25 +761,7 @@
       ]
     },
     "/grouppolicy/{groupPolicyId}/history/{gphistoryid}/rollback/": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "integer"
-          },
-          "name": "groupPolicyId",
-          "in": "path",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "integer"
-          },
-          "name": "gphistoryid",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "post": {
+      "put": {
         "summary": "Вернуться к конкретному состоянию групповой политики по идентификатору",
         "operationId": "post-grouppolicy-id-history-historyid-rollback",
         "responses": {
@@ -1772,29 +1754,7 @@
       ]
     },
     "/schema/{schemaId}/history/{schemaHistoryId}/rollback/": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string",
-            "enum": [
-              "USER",
-              "HOST"
-            ]
-          },
-          "name": "schemaId",
-          "in": "path",
-          "required": true
-        },
-        {
-          "schema": {
-            "type": "integer"
-          },
-          "name": "schemaHistoryId",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "post": {
+      "put": {
         "summary": "",
         "operationId": "post-schema-id-history-schemahistoryid-rollback",
         "responses": {

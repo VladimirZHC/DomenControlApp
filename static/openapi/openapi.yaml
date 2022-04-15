@@ -491,7 +491,7 @@ paths:
         name: gphistoryid
         in: path
         required: true
-    post:
+    put:
       summary: Вернуться к конкретному состоянию групповой политики по идентификатору
       operationId: post-grouppolicy-id-history-historyid-rollback
       responses:
@@ -1127,7 +1127,7 @@ paths:
         name: schemaHistoryId
         in: path
         required: true
-    post:
+    put:
       summary: ''
       operationId: post-schema-id-history-schemahistoryid-rollback
       responses:

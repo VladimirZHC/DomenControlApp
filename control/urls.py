@@ -1,12 +1,7 @@
 from django.urls import path, include
 from . import views
 from rest_framework.routers import DefaultRouter
-from .views import (
-    getgrouppolicyhistory, 
-    getgrouppolicyhistoryid, 
-    getgrouppolicyhistoryrollback, 
-    getschemahistoryidrollback,
-    )
+
 
 orgunits_list = views.OrgUnitViewSet.as_view({
     'get': 'list',
@@ -101,7 +96,14 @@ group_policy_id_history_id = views.HistoryGroupPolicyViewSet.as_view({
     'get': 'retrieve',
 })
 
+group_policy_id_history_id_rollback = views.HistoryGroupPolicyViewSet.as_view({
+    'put': 'update',
+})
 
+
+schema_id_history_id_rollback = views.HistoryParamsSchemaViewSet.as_view({
+    'put': 'update',
+})
 
 
 router = DefaultRouter()
@@ -130,8 +132,8 @@ urlpatterns = [
     path('schema/<str:type>/', schema_post_detail, name='computer-detail'),
     path('grouppolicy/<int:history_of>/history/', group_policy_id_history, name='group-policy-id-history'),
     path('grouppolicy/<int:history_of>/history/<int:pk>/', group_policy_id_history_id, name='group-policy-id-history-id'),
-    # path('grouppolicy/<int:pk>/history/<int:history_pk>/rollback/', getgrouppolicyhistoryrollback),
-    # path('schema/<str:type>/history/<int:history_pk>/rollback/', getschemahistoryidrollback),
+    path('grouppolicy/<int:history_of>/history/<int:pk>/rollback/', group_policy_id_history_id_rollback, name='group-policy-id-history-id-rollback'),
+    path('schema/<str:type>/history/<int:pk>/rollback/', schema_id_history_id_rollback, name='schema-id-history-id-rollback'),
     path('user/<int:pk>/policy/', result_policy_user, name='result-policy-user'),
     path('host/<int:pk>/policy/', result_policy_host, name='result-policy-host'),
     path('schema/<str:type>/history/', schema_id_history, name='schema-id-history'),

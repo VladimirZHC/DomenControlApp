@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-
 from .models import HistoryGroupPolicy, HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 
@@ -18,8 +17,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.decorators import api_view
-import re
+
 
 
 
@@ -375,133 +373,14 @@ class HistoryGroupPolicyViewSet(viewsets.ModelViewSet):
         }
         return Response(data=body, status=200)
     
+    def update(self, request, *args, **kwargs):
+        data =  super().update(request, *args, **kwargs)
+        serializer = HistoryGroupPolicySerializer(data.get('data').get('id'))
+        result = GroupPolicySerializer(serializer.instance)
+        body = {
+            'data': result.data,
+            'success': True
+        }
+        return Response(body, status=200)
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@api_view(('GET',))
-def getgrouppolicyhistory(request, *args, **kwargs):
-    body = {
-  "data": [
-    {
-      "id": 1,
-      "name": "Энергосбережение",
-      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}",
-      "updated": "2022-04-07T14:53:51.139Z",
-      "history_of": {
-        "id": 1,
-        "name": "Энергосбережение",
-        "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
-      }
-    }
-  ],
-  "success": True
-}
-    return Response(body, status=200)
-
-
-@api_view(('GET',))
-def getgrouppolicyhistoryid(request, *args, **kwargs):
-    body = {
-  "data": {
-    "id": 1,
-    "name": "Энергосбережение",
-    "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}",
-    "updated": "2022-04-07T16:36:36.648Z",
-    "history_of": {
-      "id": 1,
-      "name": "Энергосбережение",
-      "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
-    }
-  },
-  "success": True
-}
-    return Response(body, status=200)
-
-
-@api_view(('POST',))
-def getgrouppolicyhistoryrollback(request, *args, **kwargs):
-    body = {
-  "data": {
-    "id": 1,
-    "name": "Энергосбережение",
-    "body": "{\"user\":{\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_full\":\"Please unplug\"},\"screen_timeout\":180,\"sleep_timeout\":600}}}}"
-  },
-  "success": True
-}
-    return Response(body, status=200)
-
-
-
-
-
-@api_view(('POST',))
-def getschemahistoryidrollback(request, *args, **kwargs):
-    body = {
-  "data": {
-    "type": "USER",
-    "body": "{\"system\":{\"autorun\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}]},\"datetime\":{\"timezone\":\"\",\"time_format\":\"\"},\"env_vars\":{\"settings\":{\"source\":\"\"},\"vars\":[{\"name\":\"\",\"value\":\"\"}]},\"mime_types\":{\"associations\":[{\"app\":\"\",\"types\":\"\"}],\"mailto\":\"\",\"http\":\"\"}},\"desktop\":{\"start_menu\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]},\"quicklaunch\":{\"apps\":[{\"name\":\"\",\"cmd\":\"\",\"icon\":\"\"}],\"links\":[{\"name\":\"\",\"url\":\"\"}],\"folders\":[{\"name\":\"\"}]}},\"hardware\":{\"power_mgmt\":{\"notifications\":{\"batt_low\":\"\",\"batt_full\":\"\",\"plugged_in\":\"\",\"unplugged\":\"\"},\"screen_timeout\":600,\"lock_when_screen_off\":true,\"sleep_timeout\":1200,\"script_timeout\":300,\"script_after_timeout\":\"\"}}}"
-  },
-  "success": True
-}
-    return Response(body, status=200)
-
-
-
-
-
-
-
-
-
-    
-
-        
-        
-    
-    
-    
-   

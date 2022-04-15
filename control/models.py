@@ -115,7 +115,7 @@ class Host(models.Model):
         
 class HistoryGroupPolicy(models.Model):
     history_of = models.ForeignKey(GroupPolicy, related_name='history', on_delete=models.CASCADE)
-    name = models.CharField('Наименование политики', max_length=30, unique=True)
+    name = models.CharField('Наименование политики', max_length=30)
     body = models.TextField('Содержимое политики', null=True, blank=True)
     updated = models.DateTimeField('Дата изменения транзакции', auto_now_add=True, null=True, blank=True)
     
