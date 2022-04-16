@@ -1,4 +1,6 @@
+from ast import Return
 from rest_framework import viewsets
+from uritemplate import partial
 from .models import HistoryGroupPolicy, HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 
@@ -342,6 +344,21 @@ class HistoryParamsSchemaViewSet(viewsets.ModelViewSet):
             'success': True
         }
         return Response(data=body, status=200)
+    
+    def update(self, request, *args, **kwargs):
+        data = self.get_object()
+        instance = ParamsSchema.objects.get(type=kwargs.get('type'))
+        serializer = ParamsSchemaSerializer(
+            data={'body': data.body},
+            instance=instance,
+            )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        body = {
+            'data': serializer.data,
+            'success': True,
+        }
+        return Response(body, status=200)
 
 
 
@@ -373,14 +390,19 @@ class HistoryGroupPolicyViewSet(viewsets.ModelViewSet):
         }
         return Response(data=body, status=200)
     
+        
     def update(self, request, *args, **kwargs):
-        data =  super().update(request, *args, **kwargs)
-        serializer = HistoryGroupPolicySerializer(data.get('data').get('id'))
-        result = GroupPolicySerializer(serializer.instance)
+        data =  HistoryGroupPolicy.objects.get(id=kwargs.get('pk'), history_of=kwargs.get('history_of'))
+        instance = GroupPolicy.objects.get(id=kwargs.get('history_of'))
+        serializer = GroupPolicySerializer(
+            data={'body': data.body},
+            instance=instance,
+            partial=True,
+            )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
         body = {
-            'data': result.data,
-            'success': True
+            'data': serializer.data,
+            'success': True,
         }
         return Response(body, status=200)
-    
-    

@@ -10,7 +10,7 @@ class ParamsSchema(models.Model):
     body = models.TextField('Содержимое схемы', null=True, blank=True, default="{}")
     
     def __str__(self):
-        return f'Тип: {self.type}'
+        return f'{self.type}'
 
     class Meta:
         verbose_name = 'Тип'
