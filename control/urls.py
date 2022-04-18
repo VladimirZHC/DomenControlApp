@@ -106,16 +106,16 @@ schema_id_history_id_rollback = views.HistoryParamsSchemaViewSet.as_view({
 })
 
 
-router = DefaultRouter()
-router.register(r'orgunits', views.OrgUnitViewSet, basename='orgunit')
-router.register(r'grouppolicies', views.GroupPolicyViewSet)
-router.register(r'users', views.DomainUserViewSet)
-router.register(r'hosts', views.HostViewSet)
-router.register(r'schemas', views.ParamsSchemaViewSet)
+# router = DefaultRouter()
+# router.register(r'orgunits', views.OrgUnitViewSet, basename='orgunit')
+# router.register(r'grouppolicies', views.GroupPolicyViewSet)
+# router.register(r'users', views.DomainUserViewSet)
+# router.register(r'hosts', views.HostViewSet)
+# router.register(r'schemas', views.ParamsSchemaViewSet)
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
     path('orgunits/', orgunits_list, name='orgunits-list'),
     path('orgunit/', orgunit_post_detail, name='orgunit-post-detail'),
     path('orgunit/<int:pk>/', orgunit_detail, name='orgunit-detail'),

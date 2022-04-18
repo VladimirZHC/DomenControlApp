@@ -237,6 +237,7 @@ paths:
                     type: boolean
         '500':
           $ref: '#/components/responses/ErrorResponse'
+      description: ''
   /grouppolicy/:
     post:
       tags:
