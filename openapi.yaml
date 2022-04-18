@@ -80,8 +80,6 @@ paths:
                   type: object
                   required:
                     - name
-                    - parent
-                    - group_policies
                   properties:
                     name:
                       type: string
@@ -169,8 +167,6 @@ paths:
                   type: object
                   required:
                     - name
-                    - parent
-                    - group_policies
                   properties:
                     name:
                       type: string
@@ -480,6 +476,17 @@ paths:
         in: path
         required: true
   '/grouppolicy/{groupPolicyId}/history/{gphistoryid}/rollback/':
+    parameters:
+      - schema:
+          type: integer
+        name: groupPolicyId
+        in: path
+        required: true
+      - schema:
+          type: integer
+        name: gphistoryid
+        in: path
+        required: true
     put:
       summary: Вернуться к конкретному состоянию групповой политики по идентификатору
       operationId: post-grouppolicy-id-history-historyid-rollback
@@ -564,6 +571,9 @@ paths:
                       pattern: '^[A-Za-z-_]+'
                     orgunit:
                       type: integer
+                  required:
+                    - name
+                    - login
   '/user/{userId}/':
     get:
       tags:
@@ -757,6 +767,8 @@ paths:
                       example: PC1
                     orgunit:
                       type: integer
+                  required:
+                    - name
       responses:
         '200':
           description: OK
@@ -844,9 +856,6 @@ paths:
                       type: string
                     orgunit:
                       type: integer
-                  required:
-                    - name
-                    - orgunit
               required:
                 - data
     delete:
@@ -1102,6 +1111,20 @@ paths:
         in: path
         required: true
   '/schema/{schemaId}/history/{schemaHistoryId}/rollback/':
+    parameters:
+      - schema:
+          type: string
+          enum:
+            - USER
+            - HOST
+        name: schemaId
+        in: path
+        required: true
+      - schema:
+          type: integer
+        name: schemaHistoryId
+        in: path
+        required: true
     put:
       summary: ''
       operationId: post-schema-id-history-schemahistoryid-rollback

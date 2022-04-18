@@ -1,6 +1,4 @@
-from ast import Return
 from rest_framework import viewsets
-from uritemplate import partial
 from .models import HistoryGroupPolicy, HistoryParamsSchema, OrgUnit, GroupPolicy, Host, DomainUser, ParamsSchema
 from .serializers import (
     GroupPolicySerializer, 

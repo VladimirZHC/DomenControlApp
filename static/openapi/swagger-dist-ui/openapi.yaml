@@ -80,8 +80,6 @@ paths:
                   type: object
                   required:
                     - name
-                    - parent
-                    - group_policies
                   properties:
                     name:
                       type: string
@@ -169,8 +167,6 @@ paths:
                   type: object
                   required:
                     - name
-                    - parent
-                    - group_policies
                   properties:
                     name:
                       type: string
@@ -575,6 +571,9 @@ paths:
                       pattern: '^[A-Za-z-_]+'
                     orgunit:
                       type: integer
+                  required:
+                    - name
+                    - login
   '/user/{userId}/':
     get:
       tags:
@@ -768,6 +767,8 @@ paths:
                       example: PC1
                     orgunit:
                       type: integer
+                  required:
+                    - name
       responses:
         '200':
           description: OK
@@ -855,9 +856,6 @@ paths:
                       type: string
                     orgunit:
                       type: integer
-                  required:
-                    - name
-                    - orgunit
               required:
                 - data
     delete:
