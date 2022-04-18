@@ -143,12 +143,3 @@ class HistoryParamsSchema(models.Model):
     
     
     
-    
-    
-    
-    
-    
-
-ParamsSchema.objects.get_or_create(type="USER")
-ParamsSchema.objects.get_or_create(type="HOST")
-# OrgUnit.objects.get_or_create(name="root")

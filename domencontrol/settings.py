@@ -1,10 +1,18 @@
+from email.policy import default
 import os
 from pathlib import Path
+import environ
+from decouple import config
+
+
+
+env = environ.Env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-)*ht32&!ydi5#%nbl2&zs1+!62_!0jazbzq(3!ww$)3s8-^$l#'
+SECRET_KEY = env('SECRET_KEY')
 
 
 DEBUG = True
@@ -28,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'control.middleware.SimpleMiddleWare',
+    # 'control.middleware.SimpleMiddleWare',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,10 +77,20 @@ WSGI_APPLICATION = 'domencontrol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+NAME = config('NAME', default='domencontrol')
+USER = config('USER', default='vladimir')
+PASSWORD = config('PASSWORD', default='password')
+HOST = config('HOST', default='localhost')
+PORT = config('PORT', default=5432, cast=int)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': NAME,
+        'USER' : USER,
+        'PASSWORD' : PASSWORD,
+        'HOST' : HOST,
+        'PORT' : PORT,
     }
 }
 
